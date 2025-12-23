@@ -37,11 +37,11 @@ export async function getUserByEmail(email) {
     }
 }
 
-export async function getRoleById(roleId) {
-	if (!roleId) return null
-	const query = `SELECT role_id, name, description, is_active, created_at, updated_at FROM roles WHERE role_id = ? LIMIT 1`;
+export async function getUserRoleById(userId) {
+	if (userId == null) return null
+	const query = `SELECT user_id, role_id, first_name, last_name FROM users WHERE user_id = ? LIMIT 1`;
 	try {
-		const [rows] = await db.execute(query, [roleId]);
+		const [rows] = await db.execute(query, [userId]);
 		if (!rows || rows.length === 0) return null
 		return rows[0]
 	} catch (error) {
@@ -49,5 +49,6 @@ export async function getRoleById(roleId) {
 	}
 }
 
-export default { getUser, getUserByName, getUserByEmail, getRoleById }
 
+
+export default { getUser, getUserByName, getUserByEmail, getUserRoleById }

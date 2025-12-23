@@ -48,7 +48,7 @@ export function validateGetUserEmail(req, res, next) {
 
 // Esquema para validar params de GET /roles/:id
 export const getRoleParamsSchema = z.object({
-  id: z.coerce.number().int().positive()
+  id: z.coerce.number().int().min(0)
 })
 
 export function validateGetRole(req, res, next) {
