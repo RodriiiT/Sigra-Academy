@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs';
 
 // Modelo que interactua con la tabla users de la base de datos
 export class UserModel {
-	
+
 	// Método para obtener todos los usuarios
 	static async getAllUsers(){
 		const [users] = await db.query(
@@ -16,7 +16,7 @@ export class UserModel {
 			users: users
 		}
 	}
-	
+
 	// Método para obtener un usuario por su ID
 	static async getUserById(userId) {
 		if(!userId) return {error: 'El ID de usuario es requerido'};
