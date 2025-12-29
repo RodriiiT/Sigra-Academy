@@ -28,15 +28,15 @@ export class GradesLogModel {
         if(!userId) return {error: 'No se propocionó el ID del usuario.'};
         // Se verifica que el usuario exista
         const [existingUser] = await db.query(
-            `SELECT u.* r.* FROM users u
+            `SELECT u.*,r.* FROM users u
             JOIN roles r ON u.role_id = r.role_id
-            WHERE u.user_id = ? AND r.role_name = 'estudiante'`,
+            WHERE u.user_id = ? AND r.role_name = 'student'`,
             [userId]
         );
         if(existingUser.length === 0) return {error: 'El usuario no existe o no es un estudiante.'};
         // Si existe, se obtienen los registros de calificaciones de dicho estudiante
         const [gradesLog] = await db.query(
-            `SELECT * FROM grades_log WHERE user_id = ?`,
+            `SELECT * FROM grades_log WHERE student_user_id = ?`,
             [userId]
         );
         if(gradesLog.length === 0) return {message: 'No hay registros de calificaciones para este estudiante.'};
@@ -68,8 +68,8 @@ export class GradesLogModel {
             [activity_id]
         );
         const [existingUser] = await db.query(
-            `SELECT u.* r.* FROM users u JOIN roles r ON r.role_id = u.role_id
-            WHERE u.user_id = ? AND r.role_name = 'estudiante'`,
+            `SELECT u.*, r.* FROM users u JOIN roles r ON r.role_id = u.role_id
+            WHERE u.user_id = ? AND r.role_name = 'student'`,
             [student_user_id]
         );
         if(existingActivity.length === 0 || existingUser.length === 0){
@@ -78,15 +78,18 @@ export class GradesLogModel {
 
         // Si existe, se inserta la nota y el feedback que se le da al estudiante
         const [newGradeLog] = await db.query(
-            `INSERT INTO grades_log (activity_id, user_id, score, feedback)
+            `INSERT INTO grades_log (activity_id, student_user_id, score, feedback)
             VALUES (?, ?, ?, ?)`,
             [activity_id, student_user_id, rest.score, rest.feedback]
         );
         if(newGradeLog.affectedRows === 0) return {error: 'No se pudo agregar el registro de calificación.'};
-        
+        const [insertedGradeLog] = await db.query(
+            `SELECT * FROM grades_log WHERE grade_id = ?`,
+            [newGradeLog.insertId]
+        )
         return {
             message: 'Registro de calificación agregado exitosamente.',
-            gradeLogId: newGradeLog
+            grade: insertedGradeLog
         }
     }
 
@@ -103,7 +106,7 @@ export class GradesLogModel {
         }
         // Se verifica si existe el registro de calificación
         const [existingGradeLog] = await db.query(
-            `SELECT * FROM grades_log WHERE grade_log = ?`,
+            `SELECT * FROM grades_log WHERE grade_id = ?`,
             [gradeLogId]
         );
         if(existingGradeLog.length === 0) return {error: 'El registro de calificación no existe.'};
@@ -117,13 +120,17 @@ export class GradesLogModel {
         });
         values.push(gradeLogId); // Agrego el ID al final para la cláusula WHERE
         const [updatedGradeLog] = await db.query(
-            `UPDATE grades_log SET ${fields.join(', ')} WHERE grade_log = ?`,
+            `UPDATE grades_log SET ${fields.join(', ')} WHERE grade_id = ?`,
             values
         );
         if(updatedGradeLog.affectedRows === 0) return {error: 'No se pudo actualizar el registro de calificación.'};
+        const [fetchedUpdatedGradeLog] = await db.query(
+            `SELECT * FROM grades_log WHERE grade_id = ?`,
+            [gradeLogId]
+        );
         return {
             message: 'Registro de calificación actualizado exitosamente.',
-            gradeLog: updatedGradeLog
+            grade: fetchedUpdatedGradeLog
         }
     }
 
@@ -132,19 +139,18 @@ export class GradesLogModel {
         if(!gradeLogId) return {error: 'No se proporcionó el ID del registro de calificación.'};
         // Se verifica si existe el registro de calificación
         const [existingGradeLog] = await db.query(
-            `SELECT * FROM grades_log WHERE grade_log = ?`,
+            `SELECT * FROM grades_log WHERE grade_id = ?`,
             [gradeLogId]
         );
         if(existingGradeLog.length === 0) return {error: 'El registro de calificación no existe.'};
         // Si existe, se procede a eliminarlo
         const [deletedGradeLog] = await db.query(
-            `DELETE FROM grades_log WHERE grade_log = ?`,
+            `DELETE FROM grades_log WHERE grade_id = ?`,
             [gradeLogId]
         );
         if(deletedGradeLog.affectedRows === 0) return {error: 'No se pudo eliminar el registro de calificación.'};
         return {
-            message: 'Registro de calificación eliminado exitosamente.',
-            gradeLog: deletedGradeLog
+            message: 'Registro de calificación eliminado exitosamente.'
         }
     }
 }

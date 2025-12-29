@@ -3,3 +3,29 @@ GET http://localhost:5200/api/grades-log/activity/1
 
 ### Obtener todas las calificaciones registradas
 GET http://localhost:5200/api/grades-log/all
+
+### Obtener registros de calificaciones por ID de usuario
+GET http://localhost:5200/api/grades-log/user/3
+
+### Crear un nuevo registro de calificación
+POST http://localhost:5200/api/grades-log/create
+Content-Type: application/json
+
+{
+    "student_user_id": 3,
+    "activity_id": 3,
+    "score": 16.5,
+    "feedback": "Buen trabajo en la actividad."
+}
+
+### Actualizar un registro de calificación
+PATCH http://localhost:5200/api/grades-log/update/18
+Content-Type: application/json
+
+{
+    "score": 18.0,
+    "feedback": "Excelente mejora en la actividad."
+}
+
+### Eliminar un registro de calificación
+DELETE http://localhost:5200/api/grades-log/delete/15

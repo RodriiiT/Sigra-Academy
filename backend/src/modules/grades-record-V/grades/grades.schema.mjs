@@ -15,3 +15,11 @@ const updateGradeLogSchema = z.object({
 });
 
 // Aqui vas a realizar dos funciones una para validar la creación y otra para la actualización (utiliza safeParse() y partial())
+export function validateCreateGradeLog(data){
+    return createGradeLogSchema.safeParse(data);
+}
+
+// Función para validar los datos a la hora de actualizar la nota
+export function validateUpdateGradeLog(data){
+    return updateGradeLogSchema.partial().safeParse(data);
+}
