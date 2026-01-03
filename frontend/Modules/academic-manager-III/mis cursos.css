@@ -122,7 +122,7 @@
 .CursoProfesor{
     color: #5c7cfa;
     font-size: 0.9rem; 
-    margin: 5px; 
+    margin: 5px; /* Margen Inferior*/
     cursor: pointer;
 }
 
@@ -146,4 +146,21 @@
 
 .img-rounded{ /* Clase utilitaria: esquinas redondeadas */
     border-radius: 30px;
+}
+
+.cartaDeCurso{
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-left: 4px solid transparent;
+}
+
+.cartaDeCurso:hover{
+    background-color: #E8F0FF;
+    box-shadow: 0 4px 12px rgba(0, 47, 135, 0.15);
+    border-left: 4px solid #002F87;
+    transform: translateX(8px);
+}
+
+.cartaDeCurso:nth-child(odd):hover{
+    background-color: #E8F0FF;
 }
