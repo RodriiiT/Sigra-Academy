@@ -53,12 +53,28 @@ app.get("/test/users", async (req, res) => {
 	}
 });
 
-app.use("/api/subjects", subjectRoute);
-app.use("/api/subjects/prelaciones", prelaciesRoute);
+// Montar rutas de access-control
+app.use('/api/access-control', controlRouter);
 
-// >>> MONTA MANAGEMENT ANTES DEL LISTEN <<<
-app.use("/api/management", managementRoute);
+// Ruta de prueba rápida: GET /test/users?id=1
+app.get('/test/users', async (req, res) => {
+    const id = Number(req.query.id)
+    if (!id || Number.isNaN(id)) return res.status(400).json({ message: 'Query param id is required and must be a number' })
 
+    try {
+        const user = await getUserModel(id)
+        if (!user) return res.status(404).json({ message: 'User not found' })
+        return res.status(200).json(user)
+    } catch (error) {
+        console.error('Test route error:', error)
+        return res.status(500).json({ message: 'Internal server error' })
+    }
+})
+
+app.use('/api/subjects', subjectRoute)
+app.use('/api/prelacies', prelaciesRoute)
+
+// Montamos el servidor
 app.listen(SETTINGS.PORT, () => {
 	console.log(
 		`Servidor escuchando en el puerto http://localhost:${SETTINGS.PORT}`

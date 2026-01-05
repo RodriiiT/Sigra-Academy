@@ -13,8 +13,7 @@ const router = Router();
 // Montar las rutas de materias
 router.use("/subjects", subjectRoute);
 
-// Montar las rutas de prelaciones
-router.use("/prelaciones", prelaciesRoute);
+// (module removed)
 
 // Montar las rutas de la estructura académica
 router.use("/academic-structure", academicStructureRoutes);
