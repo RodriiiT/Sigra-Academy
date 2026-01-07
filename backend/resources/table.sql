@@ -44,6 +44,14 @@ CREATE TABLE password_resets (
 -- MODULO 2: ESTRUCTURA ACADÉMICA (CEREBRO)
 -- ==========================================
 
+CREATE TABLE subject_prerequisites(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    subject_id INT,
+    subject_prerequisites_id INT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (subject_id) REFERENCES subjects(subject_id) ON DELETE CASCADE
+);
+
 -- Años Académicos / Periodos (Ej: 2024-2025)
 CREATE TABLE academic_years (
     year_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -75,10 +83,10 @@ CREATE TABLE sections (
 CREATE TABLE subjects (
     subject_id INT AUTO_INCREMENT PRIMARY KEY,
     grade_id INT NOT NULL, -- Pertenece a la malla de un año específico
-    code_subject VARCHAR(20) NOT NULL UNIQUE, -- Código único de la materia
     subject_name VARCHAR(100) NOT NULL, -- "Matemáticas", "Historia"
+    code_subject VARCHAR(140) NOT NULL,
+    is_active BOOLEAN DEFAULT(TRUE), 
     description TEXT,
-    is_active BOOLEAN DEFAULT TRUE,
     FOREIGN KEY (grade_id) REFERENCES grades(grade_id)
 );
 
