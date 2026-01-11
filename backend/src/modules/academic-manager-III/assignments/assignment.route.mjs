@@ -13,6 +13,10 @@ router.get('/student/:studentId/courses', controller.getCoursesByStudentId);
 router.get('/section/:sectionId/courses', controller.getCoursesBySectionId);
 // Ruta para obtener detalles de un curso asignado
 router.get('/course/:assignmentId', controller.getCourseById);
+// Ruta para obtener todas las actividades de un curso asignado
+router.get('/assignment/:assignmentId/activities', controller.getActivitiesByAssignmentID);
+// Ruta para obtener todas las personas relacionadas a un curso asignado
+router.get('/assignment/:assignmentId/people', controller.getPeopleByAssignmentID);
 // Ruta para crear una nueva asignación de curso a profesor
 router.post('/create', controller.createAssignment);
 // Ruta para actualizar una asignación de curso a profesor

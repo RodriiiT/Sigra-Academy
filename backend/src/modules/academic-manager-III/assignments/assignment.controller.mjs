@@ -54,6 +54,38 @@ export class AssignemtController {
         }
     }
 
+    // Método para obtener todas las actividades de un curso asignado
+    getActivitiesByAssignmentID = async (req, res) => {
+        const { assignmentId } = req.params;
+        try{
+            const result =  await this.assignmentModel.getActivitiesByAssignmentID(assignmentId);
+            if(result.error) return res.status(404).json({error: result.error});
+            return res.status(200).json({
+                message: result.message,
+                activities: result.activities
+            });
+        }
+        catch(error){
+            return res.status(500).json({error: `Error obteniendo actividades del curso asignado: ${error.message}`});
+        }
+    }
+
+    // Método para obtener todas las personas relacionadas a un curso asignado
+    getPeopleByAssignmentID = async (req, res) => {
+        const { assignmentId } = req.params;
+        try{
+            const result =  await this.assignmentModel.getPeopleByAssignmentID(assignmentId);
+            if(result.error) return res.status(404).json({error: result.error});
+            return res.status(200).json({
+                message: result.message,
+                people: result.people
+            });
+        }
+        catch(error){
+            return res.status(500).json({error: `Error obteniendo personas relacionadas al curso asignado: ${error.message}`});
+        }
+    }
+
     // Método para crear una nueva asignación de curso a profesor
     createAssignment = async (req, res) => {
         const validation = validateCreateAssignment(req.body);

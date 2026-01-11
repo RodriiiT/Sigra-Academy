@@ -80,6 +80,62 @@ export class TeacherAssignmentModel {
         }
     }
 
+    // Método para obtener todas las actividades de una asignación
+    static async getActivitiesByAssignmentID(assignmentId){
+        if(!assignmentId) return {error: 'El ID de la asignación es requerido'};
+        // Se verifica que la asignación exista
+        const [existingAssignment] = await db.query(
+            `SELECT * FROM teacher_assignments WHERE assignment_id = ?`,
+            [assignmentId]
+        );
+        if(existingAssignment.length === 0) return {error: 'Asignación no encontrada'};
+        // Si existe, se obtienen las actividades asociadas
+        const [activities] = await db.query(
+            `SELECT * FROM activities WHERE assignment_id = ? AND is_active = 1
+            ORDER BY due_date DESC`,
+            [assignmentId]
+        );
+        if(activities.length === 0) return {error: 'No se encontraron actividades para esta asignación'};
+        return {
+            message: 'Actividades obtenidas exitosamente',
+            activities: activities
+        }
+    }
+
+    // Método para obtener las personas relacionadas a una asignación (profesor y estudiantes)
+    static async getPeopleByAssignmentID(assignmentId){
+        if(!assignmentId) return {error: 'El ID de la asignación es requerido'};
+        // Se verifica que la asignación exista
+        const [existingAssignment] = await db.query(
+            `SELECT * FROM teacher_assignments WHERE assignment_id = ?`,
+            [assignmentId]
+        );
+        if(existingAssignment.length === 0) return {error: 'Asignación no encontrada'};
+        // Si existe, se obtiene el profesor y la asignación
+        const [assignment] = await db.query(
+            `SELECT ta.section_id, u.user_id, CONCAT(u.first_name, ' ', u.last_name) as name, 'teacher' as role
+            FROM teacher_assignments ta JOIN users u ON ta.teacher_user_id = u.user_id
+            WHERE ta.assignment_id = ?`,
+            [assignmentId]
+        );
+        if(assignment.length === 0) return {error: 'No se encontró el profesor para esta asignación'};
+        // A su vez se obtienen los estudiantes de esa sección
+        const [students] = await db.query(
+            `SELECT u.user_id, CONCAT(u.first_name, ' ', u.last_name) as name, 'student' as role
+            FROM enrollments e JOIN users u ON e.student_user_id = u.user_id
+            WHERE e.section_id = ?`,
+            [assignment[0].section_id]
+        );
+        if(students.length === 0) return {error: 'No se encontraron estudiantes para esta asignación'};
+        return {
+            message: 'Personas relacionadas obtenidas exitosamente',
+            people: {
+                teacher: assignment[0],
+                students: students
+            }
+        }
+    }
+
     // Método para crear un nuevo curso asignado
     static async createAssignement(data){
         if(!data) return {error: 'Los datos de la asignación son requeridos'};
