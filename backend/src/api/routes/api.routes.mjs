@@ -18,6 +18,10 @@ import { ActivitiesRoute } from "../../modules/teaching-manager-IV/activities/ac
 import { AssistanceRouter } from "../../modules/teaching-manager-IV/assistance/assistance.route.mjs";
 import { ResourceRoute } from "../../modules/teaching-manager-IV/courseResources/resources.route.mjs";
 import { SubmissionRoute } from "../../modules/teaching-manager-IV/submissions/submission.route.mjs";
+import { AsignacionesRoutes } from "../../modules/teaching-manager-IV/asignaciones/asignaciones.route.mjs";
+import { AlumnosRoutes } from "../../modules/teaching-manager-IV/alumnos/alumnos.route.mjs";
+import { AsistenciaRoutes } from "../../modules/teaching-manager-IV/asistencia/asistencia.route.mjs";
+import { NotificationsRoutes } from "../notifications/notifications.route.mjs";
 
 const router = Router();
 
@@ -70,6 +74,15 @@ export const ListRoutes = {
         submissions: router.use(`${SETTINGS.BASE_PATH}/submissions`, SubmissionRoute),
         resources: router.use(`${SETTINGS.BASE_PATH}/resources`, ResourceRoute),
         assistance: router.use(`${SETTINGS.BASE_PATH}/assistance`, AssistanceRouter)
+    },
+    teachingManager: {
+        asignaciones: router.use(`${SETTINGS.BASE_PATH}/assignments`, AsignacionesRoutes),
+        alumnos: router.use(`${SETTINGS.BASE_PATH}/alumnos`, AlumnosRoutes),
+        asistencia: router.use(`${SETTINGS.BASE_PATH}/attendance`, AsistenciaRoutes),
+        courseResources: router.use(`${SETTINGS.BASE_PATH}/course-resources`, (await import('../../modules/teaching-manager-IV/course-resources/course_resources.route.mjs')).CourseResourcesRoutes)
+    },
+    notifications: {
+        notifications: router.use(`${SETTINGS.BASE_PATH}/notifications`, NotificationsRoutes)
     }
 }
 
