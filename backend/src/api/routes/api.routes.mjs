@@ -1,21 +1,20 @@
 import { Router } from "express";
 import { SETTINGS } from "../../../config/settings.config.mjs";
-import { controlRoute } from "../../modules/access-control-I/control.route.mjs";
-import { subjectRoute } from "../../modules/academic-structure-II/subjects/subjects.route.mjs";
-import { GradesLogRoutes } from "../../modules/grades-record-V/grades/grades.route.mjs";
-import { RecordsRoutes } from "../../modules/grades-record-V/records/records.route.mjs";
-import { prelaciesRoute } from "../../modules/academic-structure-II/prelacies/prelacies.route.mjs";
-import { SectionRoutes } from "../../modules/academic-structure-II/sections/section.route.mjs";
-import { GradeRoutes } from "../../modules/academic-structure-II/grades/grade.route.mjs";
-import { YearRoutes } from "../../modules/academic-structure-II/years/year.route.mjs";
-import { NotificationRoutes } from "../../modules/notifications-VII/notification.route.mjs";
 import { AssignmentRouter } from "../../modules/academic-manager-III/assignments/assignment.route.mjs";
 import { SchedulesRoutes } from "../../modules/academic-manager-III/schedules/schedules.route.mjs";
-import prelaciesRoute from "../../modules/academic-structure-II/prelacies/prelacies.route.mjs";
+import { GradeRoutes } from "../../modules/academic-structure-II/grades/grade.route.mjs";
+import { prelaciesRoute } from "../../modules/academic-structure-II/prelacies/prelacies.route.mjs";
+import { SectionRoutes } from "../../modules/academic-structure-II/sections/section.route.mjs";
 import academicStructureRoutes from "../../modules/academic-structure-II/structure.route.mjs";
-import { GradesLogRoutes } from '../../modules/grades-record-V/grades/grades.route.mjs';
-import { RecordsRoutes } from '../../modules/grades-record-V/records/records.route.mjs';
-import { SETTINGS } from '../../../config/settings.config.mjs';
+import { subjectRoute } from "../../modules/academic-structure-II/subjects/subjects.route.mjs";
+import { YearRoutes } from "../../modules/academic-structure-II/years/year.route.mjs";
+import { controlRoute } from "../../modules/access-control-I/control.route.mjs";
+import { GradesLogRoutes } from "../../modules/grades-record-V/grades/grades.route.mjs";
+import { RecordsRoutes } from "../../modules/grades-record-V/records/records.route.mjs";
+import { NotificationRoutes } from "../../modules/notifications-VII/notification.route.mjs";
+import { ActivitiesRoute } from "../../modules/teaching-manager-IV/activities/activities.route.mjs";
+import { ResourceRoute } from "../../modules/teaching-manager-IV/courseResources/resources.route.mjs";
+import { SubmissionRoute } from "../../modules/teaching-manager-IV/submissions/submission.route.mjs";
 
 const router = Router();
 
@@ -60,6 +59,11 @@ export const ListRoutes = {
     academicManager: {
         assignments: router.use(`${SETTINGS.BASE_PATH}/assignments`, AssignmentRouter),
         schedules: router.use(`${SETTINGS.BASE_PATH}/schedules`, SchedulesRoutes)
+    },
+    activities: {
+        activity: router.use(`${SETTINGS.BASE_PATH}/activities`, ActivitiesRoute),
+        submissions: router.use(`${SETTINGS.BASE_PATH}/submissions`, SubmissionRoute),
+        resources: router.use(`${SETTINGS.BASE_PATH}/resources`, ResourceRoute)
     }
 }
 
