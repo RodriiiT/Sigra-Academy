@@ -170,7 +170,7 @@ CREATE TABLE course_resources (
     resource_id INT AUTO_INCREMENT PRIMARY KEY,
     assignment_id INT NOT NULL,
     title VARCHAR(150) NOT NULL,
-    resource_type ENUM('PDF', 'Link', 'Video', 'Slide') NOT NULL,
+    resource_type ENUM('PDF', 'Video') NOT NULL,
     file_path_or_url VARCHAR(255) NOT NULL, 
     uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (assignment_id) REFERENCES teacher_assignments(assignment_id) ON DELETE CASCADE
