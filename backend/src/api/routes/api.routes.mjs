@@ -15,6 +15,7 @@ import { GradesLogRoutes } from "../../modules/grades-record-V/grades/grades.rou
 import { RecordsRoutes } from "../../modules/grades-record-V/records/records.route.mjs";
 import { NotificationRoutes } from "../../modules/notifications-VII/notification.route.mjs";
 import { ActivitiesRoute } from "../../modules/teaching-manager-IV/activities/activities.route.mjs";
+import { AssistanceRouter } from "../../modules/teaching-manager-IV/assistance/assistance.route.mjs";
 import { ResourceRoute } from "../../modules/teaching-manager-IV/courseResources/resources.route.mjs";
 import { SubmissionRoute } from "../../modules/teaching-manager-IV/submissions/submission.route.mjs";
 
@@ -67,7 +68,8 @@ export const ListRoutes = {
     activities: {
         activity: router.use(`${SETTINGS.BASE_PATH}/activities`, ActivitiesRoute),
         submissions: router.use(`${SETTINGS.BASE_PATH}/submissions`, SubmissionRoute),
-        resources: router.use(`${SETTINGS.BASE_PATH}/resources`, ResourceRoute)
+        resources: router.use(`${SETTINGS.BASE_PATH}/resources`, ResourceRoute),
+        assistance: router.use(`${SETTINGS.BASE_PATH}/assistance`, AssistanceRouter)
     }
 }
 
