@@ -12,17 +12,16 @@ import { subjectRoute } from "../../modules/academic-structure-II/subjects/subje
 import { YearRoutes } from "../../modules/academic-structure-II/years/year.route.mjs";
 import { controlRoute } from "../../modules/access-control-I/control.route.mjs";
 import { GradesLogRoutes } from "../../modules/grades-record-V/grades/grades.route.mjs";
-import { RecordsRoutes } from "../../modules/grades-record-V/records/records.route.mjs";
 import { NotificationRoutes } from "../../modules/notifications-VII/notification.route.mjs";
 import { ActivitiesRoute } from "../../modules/teaching-manager-IV/activities/activities.route.mjs";
+import { AlumnosRoutes } from "../../modules/teaching-manager-IV/alumnos/alumnos.route.mjs";
+import { AsignacionesRoutes } from "../../modules/teaching-manager-IV/asignaciones/asignaciones.route.mjs";
+import { AsistenciaRoutes } from "../../modules/teaching-manager-IV/asistencia/asistencia.route.mjs";
 import { AssistanceRouter } from "../../modules/teaching-manager-IV/assistance/assistance.route.mjs";
+import { CourseResourcesRoutes } from "../../modules/teaching-manager-IV/course-resources/course_resources.route.mjs";
 import { ResourceRoute } from "../../modules/teaching-manager-IV/courseResources/resources.route.mjs";
 import { SubmissionRoute } from "../../modules/teaching-manager-IV/submissions/submission.route.mjs";
-import { AsignacionesRoutes } from "../../modules/teaching-manager-IV/asignaciones/asignaciones.route.mjs";
-import { AlumnosRoutes } from "../../modules/teaching-manager-IV/alumnos/alumnos.route.mjs";
-import { AsistenciaRoutes } from "../../modules/teaching-manager-IV/asistencia/asistencia.route.mjs";
 import { NotificationsRoutes } from "../notifications/notifications.route.mjs";
-import { CourseResourcesRoutes } from "../../modules/teaching-manager-IV/course-resources/course_resources.route.mjs";
 
 const router = Router();
 
@@ -59,8 +58,7 @@ export const ListRoutes = {
         enrollments: router.use(`${SETTINGS.BASE_PATH}/enrollments`, EnrollmentRouter)
     },
     grades: {
-        grades: router.use(`${SETTINGS.BASE_PATH}/grades-log`, GradesLogRoutes),
-        records: router.use(`${SETTINGS.BASE_PATH}/records`, RecordsRoutes)
+        grades: router.use(`${SETTINGS.BASE_PATH}/grades-log`, GradesLogRoutes)
     },
     notifications: {
         notifications: router.use(`${SETTINGS.BASE_PATH}/notifications`, NotificationRoutes)

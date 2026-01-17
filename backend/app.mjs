@@ -39,7 +39,6 @@ app.use('/uploads', express.static('uploads'));
 
 // Servir archivos subidos (entregas, recursos)
 app.use('/uploads', express.static(path.resolve(__dirname, 'src', 'modules', 'teaching-manager-IV', 'uploads')));
-
 // Servir archivos de exportaciones (XLSX, CSV, etc.)
 app.use('/exports', express.static(path.resolve(__dirname, 'src', 'modules', 'teaching-manager-IV', 'exports')));
 // Servir archivos estáticos del frontend para páginas HTML, CSS y JS
@@ -53,6 +52,10 @@ app.use('/Public', express.static(path.resolve('../Public')));
 // Rutas básicas
 app.get("/", (req, res) => {
 	res.send("Servidor funcionando correctamente");
+});
+// Servidor escuchando en el puerto configurado
+app.listen(SETTINGS.PORT, () => {
+    console.log(`Servidor ejecutándose en http://localhost:${SETTINGS.PORT}`);
 });
 
 // Health check y atajo a vista profesor para facilitar pruebas manuales
