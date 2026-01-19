@@ -20,6 +20,7 @@
         <a href="../academic-structure-II/catalogo-materias/index.html" role="listitem">Catalogo</a>
         <a href="../academic-structure-II/gestion-materias/index.html" role="listitem">Materias</a>
         <a href="../academic-structure-II/definicion-prelaciones/index.html" role="listitem">Prelaciones</a>
+        <a href="#" role="listitem">Inscripción</a>
       </div>
 
       <button class="bell" type="button" aria-label="Notificaciones">
@@ -36,6 +37,7 @@
         </button>
         <div class="profile-dropdown" id="profile-dropdown" role="menu">
           <div class="profile-info" id="profile-info-name">Usuario</div>
+          <button type="button" class="profile-item" data-profile-action="create" role="menuitem">Crear usuario</button>
           <button type="button" class="profile-item" data-profile-action="edit" role="menuitem">Editar usuario</button>
           <button type="button" class="profile-item" data-profile-action="logout" role="menuitem">Cerrar sesión</button>
         </div>
@@ -384,6 +386,11 @@
           localStorage.removeItem('sigra_token')
           localStorage.removeItem('sigra_user')
           window.location.href = './login.html'
+          return
+        }
+
+        if (action === 'create') {
+          window.location.href = './registro.html'
           return
         }
 
