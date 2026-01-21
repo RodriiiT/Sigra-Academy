@@ -55,7 +55,8 @@ export const ListRoutes = {
         sections: router.use(`${SETTINGS.BASE_PATH}/sections`, SectionRoutes),
         gradeAcademic: router.use(`${SETTINGS.BASE_PATH}/grades`, GradeRoutes),
         years: router.use(`${SETTINGS.BASE_PATH}/years`, YearRoutes),
-        enrollments: router.use(`${SETTINGS.BASE_PATH}/enrollments`, EnrollmentRouter)
+        enrollments: router.use(`${SETTINGS.BASE_PATH}/enrollments`, EnrollmentRouter),
+        academicAssignments: router.use(`${SETTINGS.BASE_PATH}/academic-assignments`, academicAssignmentRoute)
     },
     grades: {
         grades: router.use(`${SETTINGS.BASE_PATH}/grades-log`, GradesLogRoutes)
