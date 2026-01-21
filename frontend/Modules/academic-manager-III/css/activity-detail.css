@@ -324,16 +324,39 @@ body {
     border-radius: 20px;
 }
 
-.grade-status-tag.pending {
-    background: #fff7ed;
-    color: #c2410c;
-    border: 1px solid #ffedd5;
+.feedback-box {
+    margin-top: 15px;
+    padding: 12px;
+    background: #f8fafc;
+    border-left: 4px solid var(--primary);
+    border-radius: 4px;
+    text-align: left;
 }
 
+.feedback-box strong {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.feedback-box p {
+    font-size: 0.9rem;
+    color: var(--text);
+    font-style: italic;
+    margin: 0;
+}
+
+/* Asegurar colores de etiquetas */
 .grade-status-tag.evaluated {
-    background: #f0fdf4;
-    color: #15803d;
-    border: 1px solid #dcfce7;
+    background: #dcfce7;
+    color: #166534;
+}
+
+.grade-status-tag.pending {
+    background: #fef3c7;
+    color: #92400e;
 }
 
 @keyframes fadeIn {

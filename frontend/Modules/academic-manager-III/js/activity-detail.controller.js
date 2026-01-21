@@ -47,23 +47,32 @@ function updateUIAsSubmitted(submission) {
     const gradeContainer = document.getElementById('grade-display-container');
     const gradeScore = document.getElementById('grade-score');
     const gradeStatusText = document.getElementById('grade-status-text');
+    const feedbackContainer = document.getElementById('feedback-container');
+    const gradeFeedback = document.getElementById('grade-feedback');
 
     // 1. Cambiar texto y color del Badge de la cabecera
     statusBadge.textContent = "Entregado";
     statusBadge.className = "status-badge submitted";
 
-    // 2. Lógica de Calificación (Backend Real)
-    const calificacion = submission.grade !== null && submission.grade !== undefined ? submission.grade : null;
+    // 2. Lógica de Calificación
+    const score = submission.score; 
 
     gradeContainer.style.display = "block";
-    if (calificacion !== null) {
-        gradeScore.textContent = calificacion;
+    if (score !== null && score !== undefined) {
+        gradeScore.textContent = score;
         gradeStatusText.textContent = "Evaluado por el docente";
         gradeStatusText.className = "grade-status-tag evaluated";
+        
+        // Mostrar feedback si existe
+        if (submission.feedback) {
+            feedbackContainer.style.display = "block";
+            gradeFeedback.textContent = `"${submission.feedback}"`;
+        }
     } else {
         gradeScore.textContent = "--";
         gradeStatusText.textContent = "Pendiente de evaluación";
         gradeStatusText.className = "grade-status-tag pending";
+        feedbackContainer.style.display = "none";
     }
 
     // 3. Normalizar la ruta del archivo para visualización
