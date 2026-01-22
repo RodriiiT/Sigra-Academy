@@ -162,14 +162,28 @@ header {
   transition: background-color 0.2s ease;
 }
 
-/* place back-button to the right of the logo inside the navbar */
-.navbar .back-button {
-  margin-left: 12px;
-  align-self: center;
+
+.page {
+
+}
+
+
+.page .back-button {
+  position: fixed;
+  left: 12px;
+
+  top: 92px;
+  display: inline-block;
+  padding: 8px 14px;
+  z-index: 9999;
+  /* fully rounded (pill) */
+  border-radius: 7px;
 }
 
 @media (max-width: 600px) {
-  .navbar .back-button {
+  .page .back-button {
+    left: 8px;
+    top: 84px;
     padding: 6px 10px;
     font-size: 0.9rem;
   }
