@@ -6,7 +6,6 @@ const router = Router();
 const sectionController = new SectionController({ ModelSection: SectionModel });
 
 // Ruta para obtener todas las secciones académicas
-// Ruta para obtener todas las secciones académicas
 router.get('/all', sectionController.getAllSections);
 // Ruta para obtener secciones por grado
 router.get('/grade/:gradeId', sectionController.getSectionsByGrade);
