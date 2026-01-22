@@ -6,24 +6,37 @@
   <title>SIGRA | Crear Cuenta</title>
   <link rel="stylesheet" href="login.css" />
   <link rel="stylesheet" href="registro.css" />
-  <style>
-    .top-actions { display: flex; justify-content: flex-start; margin-bottom: 8px; }
-    .back-button { text-decoration: none; padding: 10px 14px; border: 1px solid #1d4ed8; border-radius: 8px; color: #1d4ed8; font-weight: 600; background: #eef2ff; }
-    .back-button:hover { background: #e0e7ff; }
-  </style>
+  <!-- navbar/back-button styling is handled in registro.css -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 </head>
 <body>
-  <main class="page">
-    <div class="top-actions">
+  <nav class="navbar" aria-label="Barra de navegación principal">
+      <a class="brand" aria-label="SIGRA" href="registro.html">
+        <img class="brand-logo" src="../../Public/resources/Modulo-1/logo.png" alt="Logo SIGRA" />
+        <span>SIGRA</span>
+      </a>
+
       <a class="back-button" href="user-table.html">Volver a usuarios</a>
-    </div>
-    <header class="brand">
+
+      <div class="nav-links" role="list">
+        <a class="active" href="user-table.html" role="listitem">Inicio</a>
+        <a href="../academic-structure-II/catalogo-materias/index.html" role="listitem">Catalogo</a>
+        <a href="../academic-structure-II/gestion-materias/index.html" role="listitem">Materias</a>
+        <a href="../academic-structure-II/definicion-prelaciones/index.html" role="listitem">Prelaciones</a>
+        <a href="../academic-structure-II/gestionar-asignacion.html" role="listitem">Inscripción</a>
+      </div>
+
+      </div>
+    </nav>
+
+  </header>
+  <main class="page">
+    <div class="brand">
       <img class="brand-logo" src="../../Public/resources/Modulo-1/logo.png" alt="Logo SIGRA" />
       <p class="brand-text"><span class="brand-accent">SIGRA:</span> Sistema Integral de Gestión y Registro Académico</p>
-    </header>
+    </div>
 
     <h1 class="page-title">Crear Cuenta</h1>
 
@@ -99,7 +112,7 @@
           </div>
         </div>
 
-        <button class="primary-button" type="button" onclick="window.location.href='user-table.html'">Aceptar</button>
+        <button class="primary-button" id="btnAceptar" type="button">Aceptar</button>
         
        
 
