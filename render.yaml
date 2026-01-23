@@ -9,11 +9,11 @@ services:
       - key: PORT
         value: "3000"
       - key: DB_HOST
-        fromSecret: DB_HOST
+        sync: false
       - key: DB_USER
         value: "avnadmin"
       - key: DB_PASSWORD
-        fromSecret: DB_PASSWORD
+        sync: false
       - key: DB_NAME
         value: "defaultdb"
       - key: DB_PORT
