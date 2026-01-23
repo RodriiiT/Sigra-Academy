@@ -26,10 +26,10 @@ services:
     branch: main
     plan: free
 
-databases:
-  - name: sigra-db
-    engine: postgresql
-    plan: free
+# No Render-managed Postgres database defined here because this project
+# connects to an external MySQL instance. If you want a managed Postgres
+# instance, add a `databases` entry following Render's Blueprint schema
+# (see https://render.com/docs/blueprint-spec).
 
 # Notes:
 # - When you push to the `main` branch Render will read this file and create/update
