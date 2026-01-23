@@ -1,0 +1,42 @@
+services:
+  - type: web
+    name: sigra-backend
+    env: docker
+    dockerfilePath: backend/Dockerfile
+    branch: main
+    plan: free
+    envVars:
+      - key: PORT
+        value: "3000"
+      - key: DB_HOST
+        # Leave blank here and set in Render dashboard or use managed DB below
+        value: ""
+      - key: DB_USER
+        value: ""
+      - key: DB_PASSWORD
+        value: ""
+      - key: DB_NAME
+        value: ""
+
+  - type: web
+    name: sigra-frontend
+    env: docker
+    dockerfilePath: frontend/Dockerfile
+    branch: main
+    plan: free
+
+databases:
+  - name: sigra-db
+    engine: postgresql
+    plan: free
+
+# Notes:
+# - When you push to the `main` branch Render will read this file and create/update
+#   the `sigra-backend` and `sigra-frontend` services building each from its Dockerfile.
+# - This example adds a managed PostgreSQL database. If you need MySQL you can either:
+#   a) Use an external/managed MySQL and set `DB_HOST`/`DB_USER`/etc in the Render
+#      service environment variables, or
+#   b) Create a custom service running the official MySQL image (not recommended for
+#      production storage on Render).
+# - After the first push, open the Render dashboard to set the DB credentials and any
+#   secret environment variables for the backend service.
