@@ -19,16 +19,16 @@ services:
   backend:
     build:
       context: ./backend
-    depends_on:
-      db:
-        condition: service_healthy
+    # Use .env for configuration so external DB credentials can be provided
+    env_file:
+      - .env
     environment:
-      PORT: 3000
-      DB_HOST: db
-      DB_USER: root
-      DB_PASSWORD: examplepassword
-      DB_NAME: sigra_db
-      DB_PORT: 3306
+      - PORT=${PORT:-3000}
+      - DB_HOST=${DB_HOST:-db}
+      - DB_USER=${DB_USER:-root}
+      - DB_PASSWORD=${DB_PASSWORD:-examplepassword}
+      - DB_NAME=${DB_NAME:-sigra_db}
+      - DB_PORT=${DB_PORT:-3306}
     ports:
       - "3000:3000"
     volumes:

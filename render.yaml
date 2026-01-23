@@ -9,14 +9,15 @@ services:
       - key: PORT
         value: "3000"
       - key: DB_HOST
-        # Leave blank here and set in Render dashboard or use managed DB below
-        value: ""
+        fromSecret: DB_HOST
       - key: DB_USER
-        value: ""
+        value: "avnadmin"
       - key: DB_PASSWORD
-        value: ""
+        fromSecret: DB_PASSWORD
       - key: DB_NAME
-        value: ""
+        value: "defaultdb"
+      - key: DB_PORT
+        value: "22410"
 
   - type: web
     name: sigra-frontend
