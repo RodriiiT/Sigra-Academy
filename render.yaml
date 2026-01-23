@@ -3,6 +3,7 @@ services:
     name: sigra-backend
     env: docker
     dockerfilePath: backend/Dockerfile
+    dockerContext: backend
     branch: main
     plan: free
     envVars:
@@ -23,6 +24,7 @@ services:
     name: sigra-frontend
     env: docker
     dockerfilePath: frontend/Dockerfile
+    dockerContext: frontend
     branch: main
     plan: free
 
