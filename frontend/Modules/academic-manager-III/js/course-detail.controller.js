@@ -1,5 +1,6 @@
 const API_URL = 'http://localhost:5200/api/manager'; 
-const STUDENT_ID = 3; 
+const storedUser = JSON.parse(localStorage.getItem('sigra_user') || 'null');
+const STUDENT_ID = storedUser?.id || storedUser?.user_id;
 
 document.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
@@ -73,18 +74,32 @@ async function loadCourseHeader(assignmentId) {
 async function loadResources(assignmentId) {
     const container = document.getElementById('resources-container');
     try {
-        const response = await fetch(`${API_URL}/courses/${assignmentId}/materials`);
-        const { data, success } = await response.json();
+        const response = await fetch(`http://localhost:5200/api/resources/assignments/${assignmentId}/resources`);
+        const result = await response.json();
 
-        if (!success || !data || data.length === 0) {
-            container.innerHTML = '<div class="panel-placeholder"><h2>No hay materiales disponibles.</h2></div>';
+        if (!response.ok || !result.resources || result.resources.length === 0) {
+            container.innerHTML = '<div class="panel-placeholder"><h2>No hay materiales disponibles todavía.</h2></div>';
             return;
         }
 
-        container.innerHTML = data.map(res => {
-            const filePath = res.file_path_or_url || "";
-            const isPdf = res.resource_type === 'PDF' || filePath.toLowerCase().endsWith('.pdf');
-            const finalURL = filePath.startsWith('http') ? filePath : `http://localhost:3000/${filePath.replace(/\\/g, '/')}`;
+        container.innerHTML = result.resources.map(res => {
+            const rawPath = res.file_path_or_url || "";
+            
+            // 1. Normalizar barras invertidas de Windows a barras web /
+            let cleanPath = rawPath.replace(/\\/g, '/');
+
+            // 2. Si la ruta es absoluta (C:/Users/...), extraemos solo desde "uploads/"
+            if (cleanPath.includes('uploads/')) {
+                cleanPath = cleanPath.substring(cleanPath.indexOf('uploads/'));
+            }
+
+            // 3. Determinar si es PDF
+            const isPdf = res.resource_type === 'PDF' || cleanPath.toLowerCase().endsWith('.pdf');
+            
+            // 4. Construir URL final
+            const finalURL = cleanPath.startsWith('http') 
+                ? cleanPath 
+                : `http://localhost:5200/${cleanPath}`;
 
             return `
                 <a href="${finalURL}" target="_blank" class="resource-item">
@@ -93,15 +108,21 @@ async function loadResources(assignmentId) {
                     </div>
                     <div class="resource-info">
                         <div class="resource-title">${res.title || 'Recurso sin título'}</div>
-                        <div class="resource-meta">${isPdf ? 'Documento PDF' : 'Enlace / Recurso'} • Material de apoyo</div>
+                        <div class="resource-meta">${res.resource_type} • Material de apoyo</div>
                     </div>
                     <div class="action-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="7" y1="17" x2="17" y2="7"></line>
+                            <polyline points="7 7 17 7 17 17"></polyline>
+                        </svg>
                     </div>
                 </a>
             `;
         }).join('');
-    } catch (error) { console.error(error); }
+    } catch (error) { 
+        console.error("Error cargando recursos:", error);
+        container.innerHTML = '<p style="text-align:center; color:red;">Error al conectar con el servidor de recursos.</p>';
+    }
 }
 
 async function loadActivities(assignmentId) {
@@ -110,7 +131,7 @@ async function loadActivities(assignmentId) {
         const resActivities = await fetch(`${API_URL}/courses/${assignmentId}/activities`);
         const dataActivities = await resActivities.json();
 
-        const resSubmissions = await fetch(`http://localhost:3000/api/submissions/students/${STUDENT_ID}/submissions`);
+        const resSubmissions = await fetch(`http://localhost:5200/api/submissions/students/${STUDENT_ID}/submissions`);
         const dataSubmissions = await resSubmissions.json();
 
         if (!dataActivities.success || !dataActivities.data || dataActivities.data.length === 0) {

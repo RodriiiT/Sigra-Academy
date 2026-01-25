@@ -1,6 +1,7 @@
 // Configuración API y orden de días
 const API_URL = 'http://localhost:5200/api/manager';
-const STUDENT_ID = 3;
+const storedUser = JSON.parse(localStorage.getItem('sigra_user') || 'null');
+const STUDENT_ID = storedUser?.id || storedUser?.user_id;
 const dayOrder = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'];
 const stepMinutes = 30; // intervalo de 30 minutos para el grid
 

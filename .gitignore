@@ -144,3 +144,6 @@ vite.config.ts.timestamp-*
 pnpm-debug.log*
 pnpm-lock.yaml
 package-lock.json
+
+# Subidas de archivos
+uploads/

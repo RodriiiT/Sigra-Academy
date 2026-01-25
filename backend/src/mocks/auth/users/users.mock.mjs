@@ -9,6 +9,7 @@ export const usersMock = [
       last_name: 'One',
       email: 'admin1@example.com',
       phone: '6000000001',
+      national_id: 'V-10000001',
       password_hash: 'hashed_password_1',
     },
     {
@@ -18,6 +19,7 @@ export const usersMock = [
       last_name: 'Two',
       email: 'admin2@example.com',
       phone: '6000000002',
+      national_id: 'V-10000002',
       password_hash: 'hashed_password_2',
     },
     {
@@ -27,6 +29,7 @@ export const usersMock = [
       last_name: 'Three',
       email: 'admin3@example.com',
       phone: '6000000003',
+      national_id: 'V-10000003',
       password_hash: 'hashed_password_3',
     },
 
@@ -38,6 +41,7 @@ export const usersMock = [
       last_name: 'Uno',
       email: 'teacher1@example.com',
       phone: '6000000004',
+      national_id: 'V-10000004',
       password_hash: 'hashed_password_4',
     },
     {
@@ -47,6 +51,7 @@ export const usersMock = [
       last_name: 'Dos',
       email: 'teacher2@example.com',
       phone: '6000000005',
+      national_id: 'V-10000005',
       password_hash: 'hashed_password_5',
     },
     {
@@ -56,6 +61,7 @@ export const usersMock = [
       last_name: 'Tres',
       email: 'teacher3@example.com',
       phone: '6000000006',
+      national_id: 'V-10000006',
       password_hash: 'hashed_password_6',
     },
     {
@@ -65,6 +71,7 @@ export const usersMock = [
       last_name: 'Cuatro',
       email: 'teacher4@example.com',
       phone: '6000000007',
+      national_id: 'V-10000007',
       password_hash: 'hashed_password_7',
     },
     {
@@ -74,6 +81,7 @@ export const usersMock = [
       last_name: 'Cinco',
       email: 'teacher5@example.com',
       phone: '6000000008',
+      national_id: 'V-10000008',
       password_hash: 'hashed_password_8',
     },
     {
@@ -83,6 +91,7 @@ export const usersMock = [
       last_name: 'Seis',
       email: 'teacher6@example.com',
       phone: '6000000009',
+      national_id: 'V-10000009',
       password_hash: 'hashed_password_9',
     },
     {
@@ -92,6 +101,7 @@ export const usersMock = [
       last_name: 'Siete',
       email: 'teacher7@example.com',
       phone: '6000000010',
+      national_id: 'V-10000010',
       password_hash: 'hashed_password_10',
     },
     {
@@ -101,6 +111,7 @@ export const usersMock = [
       last_name: 'Ocho',
       email: 'teacher8@example.com',
       phone: '6000000011',
+      national_id: 'V-10000011',
       password_hash: 'hashed_password_11',
     },
     {
@@ -110,6 +121,7 @@ export const usersMock = [
       last_name: 'Nueve',
       email: 'teacher9@example.com',
       phone: '6000000012',
+      national_id: 'V-10000012',
       password_hash: 'hashed_password_12',
     },
     {
@@ -119,6 +131,7 @@ export const usersMock = [
       last_name: 'Diez',
       email: 'teacher10@example.com',
       phone: '6000000013',
+      national_id: 'V-10000013',
       password_hash: 'hashed_password_13',
     },
     {
@@ -128,6 +141,7 @@ export const usersMock = [
       last_name: 'Once',
       email: 'teacher11@example.com',
       phone: '6000000014',
+      national_id: 'V-10000014',
       password_hash: 'hashed_password_14',
     },
     {
@@ -137,6 +151,7 @@ export const usersMock = [
       last_name: 'Doce',
       email: 'teacher12@example.com',
       phone: '6000000015',
+      national_id: 'V-10000015',
       password_hash: 'hashed_password_15',
     },
     {
@@ -146,6 +161,7 @@ export const usersMock = [
       last_name: 'Trece',
       email: 'teacher13@example.com',
       phone: '6000000016',
+      national_id: 'V-10000016',
       password_hash: 'hashed_password_16',
     },
     {
@@ -155,6 +171,7 @@ export const usersMock = [
       last_name: 'Catorce',
       email: 'teacher14@example.com',
       phone: '6000000017',
+      national_id: 'V-10000017',
       password_hash: 'hashed_password_17',
     },
     {
@@ -164,6 +181,7 @@ export const usersMock = [
       last_name: 'Quince',
       email: 'teacher15@example.com',
       phone: '6000000018',
+      national_id: 'V-10000018',
       password_hash: 'hashed_password_18',
     },
     {
@@ -173,6 +191,7 @@ export const usersMock = [
       last_name: 'Dieciseis',
       email: 'teacher16@example.com',
       phone: '6000000019',
+      national_id: 'V-10000019',
       password_hash: 'hashed_password_19',
     },
     {
@@ -182,6 +201,7 @@ export const usersMock = [
       last_name: 'Diecisiete',
       email: 'teacher17@example.com',
       phone: '6000000020',
+      national_id: 'V-10000020',
       password_hash: 'hashed_password_20',
     },
     {
@@ -191,6 +211,7 @@ export const usersMock = [
       last_name: 'Dieciocho',
       email: 'teacher18@example.com',
       phone: '6000000021',
+      national_id: 'V-10000021',
       password_hash: 'hashed_password_21',
     },
     {
@@ -200,6 +221,7 @@ export const usersMock = [
       last_name: 'Diecinueve',
       email: 'teacher19@example.com',
       phone: '6000000022',
+      national_id: 'V-10000022',
       password_hash: 'hashed_password_22',
     },
     {
@@ -209,6 +231,7 @@ export const usersMock = [
       last_name: 'Veinte',
       email: 'teacher20@example.com',
       phone: '6000000023',
+      national_id: 'V-10000023',
       password_hash: 'hashed_password_23',
     },
     {
@@ -218,6 +241,7 @@ export const usersMock = [
       last_name: 'Veintiuno',
       email: 'teacher21@example.com',
       phone: '6000000024',
+      national_id: 'V-10000024',
       password_hash: 'hashed_password_24',
     },
     {
@@ -227,6 +251,7 @@ export const usersMock = [
       last_name: 'Veintidos',
       email: 'teacher22@example.com',
       phone: '6000000025',
+      national_id: 'V-10000025',
       password_hash: 'hashed_password_25',
     },
     {
@@ -236,6 +261,7 @@ export const usersMock = [
       last_name: 'Veintitres',
       email: 'teacher23@example.com',
       phone: '6000000026',
+      national_id: 'V-10000026',
       password_hash: 'hashed_password_26',
     },
     {
@@ -245,6 +271,7 @@ export const usersMock = [
       last_name: 'Veinticuatro',
       email: 'teacher24@example.com',
       phone: '6000000027',
+      national_id: 'V-10000027',
       password_hash: 'hashed_password_27',
     },
     {
@@ -254,6 +281,7 @@ export const usersMock = [
       last_name: 'Veinticinco',
       email: 'teacher25@example.com',
       phone: '6000000028',
+      national_id: 'V-10000028',
       password_hash: 'hashed_password_28',
     },
 
@@ -265,6 +293,7 @@ export const usersMock = [
       last_name: 'Uno',
       email: 'student1@example.com',
       phone: '6000000029',
+      national_id: 'V-10000029',
       password_hash: 'hashed_password_29',
     },
     {
@@ -274,6 +303,7 @@ export const usersMock = [
       last_name: 'Dos',
       email: 'student2@example.com',
       phone: '6000000030',
+      national_id: 'V-10000030',
       password_hash: 'hashed_password_30',
     },
     {
@@ -283,6 +313,7 @@ export const usersMock = [
       last_name: 'Tres',
       email: 'student3@example.com',
       phone: '6000000031',
+      national_id: 'V-10000031',
       password_hash: 'hashed_password_31',
     },
     {
@@ -292,6 +323,7 @@ export const usersMock = [
       last_name: 'Cuatro',
       email: 'student4@example.com',
       phone: '6000000032',
+      national_id: 'V-10000032',
       password_hash: 'hashed_password_32',
     },
     {
@@ -301,6 +333,7 @@ export const usersMock = [
       last_name: 'Cinco',
       email: 'student5@example.com',
       phone: '6000000033',
+      national_id: 'V-10000033',
       password_hash: 'hashed_password_33',
     },
     {
@@ -310,6 +343,7 @@ export const usersMock = [
       last_name: 'Seis',
       email: 'student6@example.com',
       phone: '6000000034',
+      national_id: 'V-10000034',
       password_hash: 'hashed_password_34',
     },
     {
@@ -319,6 +353,7 @@ export const usersMock = [
       last_name: 'Siete',
       email: 'student7@example.com',
       phone: '6000000035',
+      national_id: 'V-10000035',
       password_hash: 'hashed_password_35',
     },
     {
@@ -328,6 +363,7 @@ export const usersMock = [
       last_name: 'Ocho',
       email: 'student8@example.com',
       phone: '6000000036',
+      national_id: 'V-10000036',
       password_hash: 'hashed_password_36',
     },
     {
@@ -337,6 +373,7 @@ export const usersMock = [
       last_name: 'Nueve',
       email: 'student9@example.com',
       phone: '6000000037',
+      national_id: 'V-10000037',
       password_hash: 'hashed_password_37',
     },
     {
@@ -346,6 +383,7 @@ export const usersMock = [
       last_name: 'Diez',
       email: 'student10@example.com',
       phone: '6000000038',
+      national_id: 'V-10000038',
       password_hash: 'hashed_password_38',
     },
     {
@@ -355,6 +393,7 @@ export const usersMock = [
       last_name: 'Once',
       email: 'student11@example.com',
       phone: '6000000039',
+      national_id: 'V-10000039',
       password_hash: 'hashed_password_39',
     },
     {
@@ -364,6 +403,7 @@ export const usersMock = [
       last_name: 'Doce',
       email: 'student12@example.com',
       phone: '6000000040',
+      national_id: 'V-10000040',
       password_hash: 'hashed_password_40',
     },
     {
@@ -373,6 +413,7 @@ export const usersMock = [
       last_name: 'Trece',
       email: 'student13@example.com',
       phone: '6000000041',
+      national_id: 'V-10000041',
       password_hash: 'hashed_password_41',
     },
     {
@@ -382,6 +423,7 @@ export const usersMock = [
       last_name: 'Catorce',
       email: 'student14@example.com',
       phone: '6000000042',
+      national_id: 'V-10000042',
       password_hash: 'hashed_password_42',
     },
     {
@@ -391,6 +433,7 @@ export const usersMock = [
       last_name: 'Quince',
       email: 'student15@example.com',
       phone: '6000000043',
+      national_id: 'V-10000043',
       password_hash: 'hashed_password_43',
     },
     {
@@ -400,6 +443,7 @@ export const usersMock = [
       last_name: 'Dieciseis',
       email: 'student16@example.com',
       phone: '6000000044',
+      national_id: 'V-10000044',
       password_hash: 'hashed_password_44',
     },
     {
@@ -409,6 +453,7 @@ export const usersMock = [
       last_name: 'Diecisiete',
       email: 'student17@example.com',
       phone: '6000000045',
+      national_id: 'V-10000045',
       password_hash: 'hashed_password_45',
     },
     {
@@ -418,6 +463,7 @@ export const usersMock = [
       last_name: 'Dieciocho',
       email: 'student18@example.com',
       phone: '6000000046',
+      national_id: 'V-10000046',
       password_hash: 'hashed_password_46',
     },
     {
@@ -427,6 +473,7 @@ export const usersMock = [
       last_name: 'Diecinueve',
       email: 'student19@example.com',
       phone: '6000000047',
+      national_id: 'V-10000047',
       password_hash: 'hashed_password_47',
     },
     {
@@ -436,6 +483,7 @@ export const usersMock = [
       last_name: 'Veinte',
       email: 'student20@example.com',
       phone: '6000000048',
+      national_id: 'V-10000048',
       password_hash: 'hashed_password_48',
     },
     {
@@ -445,6 +493,7 @@ export const usersMock = [
       last_name: 'Veintiuno',
       email: 'student21@example.com',
       phone: '6000000049',
+      national_id: 'V-10000049',
       password_hash: 'hashed_password_49',
     },
     {
@@ -454,6 +503,7 @@ export const usersMock = [
       last_name: 'Veintidos',
       email: 'student22@example.com',
       phone: '6000000050',
+      national_id: 'V-10000050',
       password_hash: 'hashed_password_50',
     },
     {
@@ -463,6 +513,7 @@ export const usersMock = [
       last_name: 'Veintitres',
       email: 'student23@example.com',
       phone: '6000000051',
+      national_id: 'V-10000051',
       password_hash: 'hashed_password_51',
     },
     {
@@ -472,6 +523,7 @@ export const usersMock = [
       last_name: 'Veinticuatro',
       email: 'student24@example.com',
       phone: '6000000052',
+      national_id: 'V-10000052',
       password_hash: 'hashed_password_52',
     },
     {
@@ -481,6 +533,7 @@ export const usersMock = [
       last_name: 'Veinticinco',
       email: 'student25@example.com',
       phone: '6000000053',
+      national_id: 'V-10000053',
       password_hash: 'hashed_password_53',
     },
     {
@@ -490,6 +543,7 @@ export const usersMock = [
       last_name: 'Veintiseis',
       email: 'student26@example.com',
       phone: '6000000054',
+      national_id: 'V-10000054',
       password_hash: 'hashed_password_54',
     },
     {
@@ -499,6 +553,7 @@ export const usersMock = [
       last_name: 'Veintisiete',
       email: 'student27@example.com',
       phone: '6000000055',
+      national_id: 'V-10000055',
       password_hash: 'hashed_password_55',
     },
     {
@@ -508,6 +563,7 @@ export const usersMock = [
       last_name: 'Veintiocho',
       email: 'student28@example.com',
       phone: '6000000056',
+      national_id: 'V-10000056',
       password_hash: 'hashed_password_56',
     },
     {
@@ -517,6 +573,7 @@ export const usersMock = [
       last_name: 'Veintinueve',
       email: 'student29@example.com',
       phone: '6000000057',
+      national_id: 'V-10000057',
       password_hash: 'hashed_password_57',
     },
     {
@@ -526,6 +583,7 @@ export const usersMock = [
       last_name: 'Treinta',
       email: 'student30@example.com',
       phone: '6000000058',
+      national_id: 'V-10000058',
       password_hash: 'hashed_password_58',
     },
     {
@@ -535,6 +593,7 @@ export const usersMock = [
       last_name: 'Treintauno',
       email: 'student31@example.com',
       phone: '6000000059',
+      national_id: 'V-10000059',
       password_hash: 'hashed_password_59',
     },
     {
@@ -544,6 +603,7 @@ export const usersMock = [
       last_name: 'Treintados',
       email: 'student32@example.com',
       phone: '6000000060',
+      national_id: 'V-10000060',
       password_hash: 'hashed_password_60',
     },
     {
@@ -553,6 +613,7 @@ export const usersMock = [
       last_name: 'Treintatres',
       email: 'student33@example.com',
       phone: '6000000061',
+      national_id: 'V-10000061',
       password_hash: 'hashed_password_61',
     },
     {
@@ -562,6 +623,7 @@ export const usersMock = [
       last_name: 'Treintacuatro',
       email: 'student34@example.com',
       phone: '6000000062',
+      national_id: 'V-10000062',
       password_hash: 'hashed_password_62',
     },
     {
@@ -571,6 +633,7 @@ export const usersMock = [
       last_name: 'Treintacinco',
       email: 'student35@example.com',
       phone: '6000000063',
+      national_id: 'V-10000063',
       password_hash: 'hashed_password_63',
     },
     {
@@ -580,6 +643,7 @@ export const usersMock = [
       last_name: 'Treintaseis',
       email: 'student36@example.com',
       phone: '6000000064',
+      national_id: 'V-10000064',
       password_hash: 'hashed_password_64',
     },
     {
@@ -589,6 +653,7 @@ export const usersMock = [
       last_name: 'Treintasiete',
       email: 'student37@example.com',
       phone: '6000000065',
+      national_id: 'V-10000065',
       password_hash: 'hashed_password_65',
     },
     {
@@ -598,6 +663,7 @@ export const usersMock = [
       last_name: 'Treintaocho',
       email: 'student38@example.com',
       phone: '6000000066',
+      national_id: 'V-10000066',
       password_hash: 'hashed_password_66',
     },
     {
@@ -607,6 +673,7 @@ export const usersMock = [
       last_name: 'Treintanueve',
       email: 'student39@example.com',
       phone: '6000000067',
+      national_id: 'V-10000067',
       password_hash: 'hashed_password_67',
     },
     {
@@ -616,6 +683,7 @@ export const usersMock = [
       last_name: 'Cuarenta',
       email: 'student40@example.com',
       phone: '6000000068',
+      national_id: 'V-10000068',
       password_hash: 'hashed_password_68',
     },
     {
@@ -625,6 +693,7 @@ export const usersMock = [
       last_name: 'Cuarentauno',
       email: 'student41@example.com',
       phone: '6000000069',
+      national_id: 'V-10000069',
       password_hash: 'hashed_password_69',
     },
     {
@@ -634,6 +703,7 @@ export const usersMock = [
       last_name: 'Cuarentados',
       email: 'student42@example.com',
       phone: '6000000070',
+      national_id: 'V-10000070',
       password_hash: 'hashed_password_70',
     },
     {
@@ -643,6 +713,7 @@ export const usersMock = [
       last_name: 'Cuarentatres',
       email: 'student43@example.com',
       phone: '6000000071',
+      national_id: 'V-10000071',
       password_hash: 'hashed_password_71',
     },
     {
@@ -652,6 +723,7 @@ export const usersMock = [
       last_name: 'Cuarentacuatro',
       email: 'student44@example.com',
       phone: '6000000072',
+      national_id: 'V-10000072',
       password_hash: 'hashed_password_72',
     },
     {
@@ -661,6 +733,7 @@ export const usersMock = [
       last_name: 'Cuarentacinco',
       email: 'student45@example.com',
       phone: '6000000073',
+      national_id: 'V-10000073',
       password_hash: 'hashed_password_73',
     }
 ]
