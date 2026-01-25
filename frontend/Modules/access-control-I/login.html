@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,11 +10,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="login.css" />
 </head>
+
 <body>
   <main class="page">
     <header class="brand">
       <img class="brand-logo" src="../../Public/resources/Modulo-1/logo.png" alt="Logo SIGRA" />
-      <p class="brand-text"><span class="brand-accent">SIGRA:</span> Sistema Integral de Gestión y Registro Académico</p>
+      <p class="brand-text"><span class="brand-accent">SIGRA:</span> Sistema Integral de Gestión y Registro Académico
+      </p>
     </header>
 
     <h1 class="page-title">Inicio de Sesión</h1>
@@ -26,10 +29,12 @@
             <span class="input-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z" stroke="currentColor" stroke-width="1.5" />
-                <path d="M4 20.5c0-3.59 3.582-6.5 8-6.5s8 2.91 8 6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                <path d="M4 20.5c0-3.59 3.582-6.5 8-6.5s8 2.91 8 6.5" stroke="currentColor" stroke-width="1.5"
+                  stroke-linecap="round" />
               </svg>
             </span>
-            <input id="usuario" name="usuario" type="email" placeholder="Ingresa tu correo" aria-label="Correo" autocomplete="email" />
+            <input id="usuario" name="usuario" type="email" placeholder="Ingresa tu correo" aria-label="Correo"
+              autocomplete="email" />
           </div>
           <p class="input-error" id="email-error" aria-live="polite"></p>
         </div>
@@ -43,11 +48,13 @@
                 <path d="M8 10V7a4 4 0 1 1 8 0v3" stroke="currentColor" stroke-width="1.5" />
               </svg>
             </span>
-            <input id="contrasena" name="contrasena" type="password" placeholder="Ingresa tu contraseña" aria-label="Contraseña" autocomplete="current-password" />
-            
+            <input id="contrasena" name="contrasena" type="password" placeholder="Ingresa tu contraseña"
+              aria-label="Contraseña" autocomplete="current-password" />
+
             <button class="ghost-button toggle-password-btn" type="button" aria-label="Mostrar u ocultar contraseña">
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M3 12s3.5-6 9-6 9 6 9 6-3.5 6-9 6-9-6-9-6Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M3 12s3.5-6 9-6 9 6 9 6-3.5 6-9 6-9-6-9-6Z" stroke="currentColor" stroke-width="1.5"
+                  stroke-linecap="round" stroke-linejoin="round" />
                 <circle cx="12" cy="12" r="2.5" stroke="currentColor" stroke-width="1.5" />
               </svg>
             </button>
@@ -56,17 +63,17 @@
         </div>
 
         <button class="primary-button" type="submit" id="login-button">Acceder</button>
-        
+
         <div class="secondary-links">
           <a class="link-text" href="#">¿Olvidaste tu contraseña?</a>
-            
-        
+          <a class="link-text" href="../landing/index.html">← Volver al inicio</a>
         </div>
 
       </form>
     </section>
 
     <footer class="footer">
+      <a href="../landing/index.html">Inicio</a>
       <a href="#">Ayuda</a>
       <a href="#">Términos de uso</a>
       <a href="#">Privacidad</a>
@@ -164,7 +171,7 @@
 
           // Guarda la respuesta completa del usuario que envía el backend
           // para reutilizarla en otras vistas sin tener que volver a pedirla.
-          
+
 
           // Guardamos datos básicos del usuario para usarlos en el navbar u otras vistas
           const safeUser = {
@@ -197,4 +204,5 @@
     })()
   </script>
 </body>
+
 </html>
