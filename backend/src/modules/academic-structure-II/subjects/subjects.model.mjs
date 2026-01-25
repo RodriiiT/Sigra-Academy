@@ -187,6 +187,40 @@ export class subjectModel {
         }
     }
 
+    // metodo para actualizar asignaciones de materias a un grado
+    static async updateSubjectGradeAssignments(gradeId, subjectIds) {
+        if (!gradeId) return { error: 'El ID del grado es requerido' };
+        if (!Array.isArray(subjectIds)) return { error: 'Los IDs de materias deben ser un array' };
+
+        try {
+            // Primero, desactivar todas las materias del grado actual
+            await db.query(
+                `UPDATE subjects SET is_active = 0 WHERE grade_id = ?`,
+                [gradeId]
+            );
+
+            // Luego, activar solo las materias seleccionadas para este grado
+            if (subjectIds.length > 0) {
+                const placeholders = subjectIds.map(() => '?').join(',');
+                await db.query(
+                    `UPDATE subjects 
+                     SET is_active = 1 
+                     WHERE subject_id IN (${placeholders}) AND grade_id = ?`,
+                    [...subjectIds, gradeId]
+                );
+            }
+
+            return {
+                message: 'Asignaciones actualizadas correctamente',
+                gradeId: gradeId,
+                assignedCount: subjectIds.length
+            };
+        } catch (error) {
+            console.error('Error updating subject assignments:', error);
+            return { error: 'Error al actualizar las asignaciones de materias' };
+        }
+    }
+
     // metodo para eliminar una materia
     static async deleteSubject(subjectId) {
         if (!subjectId) return { error: 'El ID de la materia es requerido' };
