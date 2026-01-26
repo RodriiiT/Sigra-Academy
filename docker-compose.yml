@@ -19,7 +19,6 @@ services:
   backend:
     build:
       context: ./backend
-    # Use .env for configuration so external DB credentials can be provided
     env_file:
       - .env
     environment:
@@ -30,7 +29,9 @@ services:
       - DB_NAME=${DB_NAME:-sigra_db}
       - DB_PORT=${DB_PORT:-3306}
     ports:
-      - "3000:3000"
+      # CAMBIO AQUI: 3001 externo apunta al 3000 interno
+      # para no chocar con el dashboard de Dokploy
+      - "3001:3000" 
     volumes:
       - ./backend/uploads:/app/uploads
     restart: unless-stopped
@@ -39,7 +40,8 @@ services:
     build:
       context: ./frontend
     ports:
-      - "80:80"
+      # CAMBIO AQUI: 4000 externo apunta al 80 interno (Nginx)
+      - "4000:80"
     restart: unless-stopped
 
 volumes:
