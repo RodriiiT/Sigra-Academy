@@ -479,17 +479,12 @@
             input.disabled = mode === 'view'
           }
         })
-
-        // Limpiar campos de contraseña al abrir el modal
-        const pwd = document.getElementById('modal-password')
-        const pwdConfirm = document.getElementById('modal-password-confirm')
-        if (pwd) {
-          pwd.value = ''
-          pwd.disabled = mode === 'view'
-        }
-        if (pwdConfirm) {
-          pwdConfirm.value = ''
-          pwdConfirm.disabled = mode === 'view'
+        
+        // La contraseña no se prellena por seguridad; habilitada solo en edición
+        const pwdInput = document.getElementById('modal-password')
+        if (pwdInput) {
+          pwdInput.value = ''
+          pwdInput.disabled = mode === 'view'
         }
 
         modal.dataset.mode = mode
@@ -517,46 +512,6 @@
           phone: document.getElementById('modal-phone').value.trim(),
           role_id: Number(document.getElementById('modal-role_id').value) || currentUser.role_id,
           is_active: document.getElementById('modal-is_active').checked
-        }
-
-        const newPassword = document.getElementById('modal-password')?.value || ''
-        const confirmPassword = document.getElementById('modal-password-confirm')?.value || ''
-
-        if (newPassword || confirmPassword) {
-          if (newPassword !== confirmPassword) {
-            alert('Las contraseñas no coinciden.')
-            return
-          }
-          if (newPassword.length < 8 || newPassword.length > 20) {
-            alert('La contraseña debe tener entre 8 y 20 caracteres.')
-            return
-          }
-          const pwdRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-_+\*\/\?]).+$/
-          if (!pwdRegex.test(newPassword)) {
-            alert('La contraseña debe contener al menos: una letra mayúscula, una letra minúscula, un número y uno de los caracteres permitidos: - _ + * / ?')
-            return
-          }
-          payload.password_hash = newPassword
-        }
-
-        const newPassword = document.getElementById('modal-password')?.value || ''
-        const confirmPassword = document.getElementById('modal-password-confirm')?.value || ''
-
-        if (newPassword || confirmPassword) {
-          if (newPassword !== confirmPassword) {
-            alert('Las contraseñas no coinciden.')
-            return
-          }
-          if (newPassword.length < 8 || newPassword.length > 20) {
-            alert('La contraseña debe tener entre 8 y 20 caracteres.')
-            return
-          }
-          const pwdRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-_+\*\/\?]).+$/
-          if (!pwdRegex.test(newPassword)) {
-            alert('La contraseña debe contener al menos: una letra mayúscula, una letra minúscula, un número y uno de los caracteres permitidos: - _ + * / ?')
-            return
-          }
-          payload.password_hash = newPassword
         }
 
         const newPassword = (document.getElementById('modal-password')?.value || '').trim()
@@ -723,14 +678,6 @@
       <label>
         Teléfono
         <input id="modal-phone" type="tel" />
-      </label>
-      <label>
-        Nueva contraseña (opcional)
-        <input id="modal-password" type="password" autocomplete="new-password" />
-      </label>
-      <label>
-        Confirmar contraseña
-        <input id="modal-password-confirm" type="password" autocomplete="new-password" />
       </label>
       <label>
         Rol
