@@ -3,6 +3,7 @@ import {z} from "zod";
 // Esquema de valdiación para la creación de un usuario
 const createdSchemaUser = z.object({
   role_id: z.number().int().positive(),
+  national_id: z.string().regex(/^\d+$/,{ message: 'national_id debe contener solo números' }).min(6).max(20),
   first_name: z.string().min(1).max(50),
   last_name: z.string().min(1).max(50),
   email: z.string().email().max(100),
@@ -19,6 +20,7 @@ const loginSchemaUser = z.object({
 // Esquema de validación para la actualización de un usuario
 const updateSchemaUser = z.object({
   role_id: z.number().int().positive().optional(),
+  national_id: z.string().regex(/^\d+$/,{ message: 'national_id debe contener solo números' }).min(6).max(20).optional(),
   first_name: z.string().min(1).max(50).optional(),
   last_name: z.string().min(1).max(50).optional(),
   email: z.string().email().max(100).optional(),

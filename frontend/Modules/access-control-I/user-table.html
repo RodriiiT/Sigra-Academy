@@ -55,9 +55,21 @@
     </div>
 
     <div class="toolbar">
-      <div class="filter-group">
-        <label for="user-filter">Filtrar</label>
-        <input id="user-filter" type="text" placeholder="Buscar por nombre o correo" />
+      <div class="filters">
+        <div class="filter-group">
+          <label for="user-filter">Filtrar</label>
+          <input id="user-filter" type="text" placeholder="Buscar por nombre, correo o cédula" />
+        </div>
+        <div class="filter-group">
+          <label for="role-filter">Rol</label>
+          <select id="role-filter">
+            <option value="">Todos</option>
+            <option value="1">Administrador</option>
+            <option value="2">Docente</option>
+            <option value="3">Estudiante</option>
+            <option value="4">Control de Estudios</option>
+          </select>
+        </div>
       </div>
       <div class="actions">
         <button class="ghost-btn" type="button" id="add-user-btn">Agregar usuario nuevo</button>
@@ -71,6 +83,7 @@
           <thead>
             <tr>
               <th scope="col">Usuario</th>
+              <th scope="col">Cédula</th>
               <th scope="col">Rol</th>
               <th scope="col">Estado</th>
               <th scope="col">Correo</th>
@@ -79,7 +92,7 @@
           </thead>
           <tbody id="users-body">
             <tr id="users-loading">
-              <td colspan="5">Cargando usuarios...</td>
+              <td colspan="6">Cargando usuarios...</td>
             </tr>
           </tbody>
         </table>
@@ -100,12 +113,14 @@
       const profileAvatar = document.getElementById('profile-avatar')
       const profileInfoName = document.getElementById('profile-info-name')
       const paginationEl = document.getElementById('pagination')
+      const roleFilter = document.getElementById('role-filter')
       const PAGE_SIZE = 8
 
       const ROLE_LABELS = {
         1: 'Administrador',
         2: 'Docente',
-        3: 'Estudiante'
+        3: 'Estudiante',
+        4: 'Control de Estudios'
       }
 
       function badge(isActive) {
@@ -131,11 +146,15 @@
       function actionButtonsFactory() {
         const loggedUser = getStoredUser() || {}
         const loggedId = loggedUser.id || loggedUser.user_id
+        const loggedRoleId = getLoggedRoleId()
 
         return (user) => {
           const roleId = Number(user.role_id)
           const isAdminRow = roleId === 1
           const isSelf = loggedId && Number(user.user_id) === Number(loggedId)
+          const isActiveRow = Boolean(user.is_active ?? true)
+          const isControlUser = loggedRoleId === 4
+          const isTeacherRow = roleId === 2
 
           const encodedUser = encodeURIComponent(JSON.stringify(user))
 
@@ -155,14 +174,11 @@
                   </svg>
                 </button>`
 
-          const deleteBtn = `
-                <button class="icon-link danger" type="button" data-action="delete" data-user="${encodedUser}" aria-label="Eliminar usuario">
+          const toggleBtn = `
+                <button class="icon-link ${isActiveRow ? 'danger' : ''}" type="button" data-action="toggle" data-user="${encodedUser}" aria-label="${isActiveRow ? 'Desactivar usuario' : 'Activar usuario'}">
                   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path d="M5.5 7h13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
-                    <path d="M10 10v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
-                    <path d="M14 10v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
-                    <path d="M9 7V5.5a1.5 1.5 0 0 1 1.5-1.5h3A1.5 1.5 0 0 1 15 5.5V7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
-                    <path d="M6.5 7 7 18a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l.5-11" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+                    <path d="M12 3v10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    <path d="M5.5 6.5a8.5 8.5 0 1 0 13 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
                 </button>`
 
@@ -171,7 +187,12 @@
             return viewBtn
           }
 
-          return `${viewBtn} ${editBtn} ${deleteBtn}`
+          // Control de Estudios: profesores solo se pueden ver (sin editar ni activar/desactivar)
+          if (isControlUser && isTeacherRow) {
+            return viewBtn
+          }
+
+          return `${viewBtn} ${editBtn} ${toggleBtn}`
         }
       }
 
@@ -182,28 +203,41 @@
           return
         }
 
-        let html = ''
         const prevDisabled = currentPage === 1 ? 'disabled' : ''
         const nextDisabled = currentPage === totalPages ? 'disabled' : ''
 
-        html += `<button class="page-item icon" type="button" data-page="${currentPage - 1}" aria-label="Página anterior" ${prevDisabled}>‹</button>`
-
-        for (let page = 1; page <= totalPages; page += 1) {
-          const active = page === currentPage ? 'active' : ''
-          const aria = page === currentPage ? 'aria-current="page"' : ''
-          html += `<button class="page-item ${active}" type="button" data-page="${page}" ${aria}>${page}</button>`
+        const visible = new Set([1, totalPages])
+        for (let offset = -2; offset <= 2; offset += 1) {
+          const page = currentPage + offset
+          if (page > 1 && page < totalPages) visible.add(page)
         }
 
-        html += `<button class="page-item icon" type="button" data-page="${currentPage + 1}" aria-label="Página siguiente" ${nextDisabled}>›</button>`
+        const pages = Array.from(visible).sort((a, b) => a - b)
 
-        paginationEl.innerHTML = html
+        const parts = []
+        parts.push(`<button class="page-item icon" type="button" data-page="${currentPage - 1}" aria-label="Página anterior" ${prevDisabled}>‹</button>`)
+
+        for (let i = 0; i < pages.length; i += 1) {
+          const page = pages[i]
+          const prevPage = pages[i - 1]
+          if (prevPage && page - prevPage > 1) {
+            parts.push('<span class="page-ellipsis">…</span>')
+          }
+          const active = page === currentPage ? 'active' : ''
+          const aria = page === currentPage ? 'aria-current="page"' : ''
+          parts.push(`<button class="page-item ${active}" type="button" data-page="${page}" ${aria}>${page}</button>`)
+        }
+
+        parts.push(`<button class="page-item icon" type="button" data-page="${currentPage + 1}" aria-label="Página siguiente" ${nextDisabled}>›</button>`)
+
+        paginationEl.innerHTML = parts.join('')
       }
 
       function renderUsers(users = []) {
         const actionButtons = actionButtonsFactory()
 
         if (!users.length) {
-          tbody.innerHTML = '<tr><td colspan="5">No hay usuarios registrados.</td></tr>'
+          tbody.innerHTML = '<tr><td colspan="6">No hay usuarios registrados.</td></tr>'
           renderPagination(0)
           return
         }
@@ -216,6 +250,7 @@
         const rows = pageUsers.map((user) => {
           const roleId = Number(user.role_id)
           const role = ROLE_LABELS[roleId] || `Rol ${roleId || 'N/D'}`
+          const nationalId = user.national_id || 'Sin cédula'
           const name = [user.first_name, user.last_name].filter(Boolean).join(' ').trim() || 'Sin nombre'
           const email = user.email || 'Sin correo'
           const isActive = user.is_active ?? true
@@ -223,6 +258,7 @@
           return `
             <tr>
               <td>${name}</td>
+              <td>${nationalId}</td>
               <td>${role}</td>
               <td>${badge(isActive)}</td>
               <td>${email}</td>
@@ -242,23 +278,33 @@
         return name || user.email || `Usuario #${user.user_id}`
       }
 
-      async function deleteUser(user) {
+      async function toggleUserActive(user) {
+        const loggedRoleId = getLoggedRoleId()
+        if (loggedRoleId === 4 && Number(user.role_id) === 2) {
+          return
+        }
         const nombre = getDisplayName(user)
-        const ok = window.confirm(`¿Estás seguro que quieres eliminar a "${nombre}"?`)
+        const nextState = !Boolean(user.is_active)
+        const question = nextState ? `¿Activar a "${nombre}"?` : `¿Desactivar a "${nombre}"?`
+        const ok = window.confirm(question)
         if (!ok) return
         try {
-          const response = await fetch(`${API_BASE}/delete/${user.user_id}`, {
-            method: 'DELETE',
-            headers: { ...getAuthHeaders() }
+          const response = await fetch(`${API_BASE}/update/${user.user_id}`, {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+              ...getAuthHeaders()
+            },
+            body: JSON.stringify({ is_active: nextState })
           })
           if (!response.ok) {
             const err = await response.json().catch(() => ({}))
-            throw new Error(err.error || 'No se pudo eliminar el usuario')
+            throw new Error(err.error || 'No se pudo actualizar el estado del usuario')
           }
           await loadUsers()
         } catch (error) {
           alert(error.message)
-          console.error('Error eliminando usuario:', error)
+          console.error('Error cambiando estado de usuario:', error)
         }
       }
 
@@ -268,8 +314,8 @@
           if (!btn) return
           const action = btn.dataset.action
           const user = JSON.parse(decodeURIComponent(btn.dataset.user || '%7B%7D'))
-          if (action === 'delete') {
-            deleteUser(user)
+          if (action === 'toggle') {
+            toggleUserActive(user)
             return
           }
           openModal(user, action)
@@ -294,6 +340,12 @@
         } catch (_) {
           return null
         }
+      }
+
+      function getLoggedRoleId() {
+        const u = getStoredUser() || {}
+        const rid = u.role_id ?? (u.role && u.role.role_id)
+        return Number(rid) || null
       }
 
       function clearSessionStorage() {
@@ -342,10 +394,14 @@
 
       function applyFilter() {
         const term = (document.getElementById('user-filter').value || '').toLowerCase()
+        const selectedRole = (roleFilter?.value || '').trim()
         filteredUsers = allUsers.filter((u) => {
           const name = `${u.first_name || ''} ${u.last_name || ''}`.toLowerCase()
           const email = (u.email || '').toLowerCase()
-          return name.includes(term) || email.includes(term)
+          const nationalId = String(u.national_id || '').toLowerCase()
+          const matchesTerm = name.includes(term) || email.includes(term) || nationalId.includes(term)
+          const matchesRole = !selectedRole || String(u.role_id) === selectedRole
+          return matchesTerm && matchesRole
         })
         currentPage = 1
         renderUsers(filteredUsers)
@@ -356,13 +412,32 @@
           const response = await fetch(`${API_BASE}/users`)
           if (!response.ok) throw new Error('No se pudo obtener usuarios')
           const data = await response.json()
-          allUsers = data.users || []
+          const loggedRoleId = getLoggedRoleId()
+          let list = data.users || []
+          if (loggedRoleId === 4) {
+            list = list.filter((u) => {
+              const r = Number(u.role_id)
+              return r === 2 || r === 3
+            })
+            // Limitar opciones del filtro de rol para este perfil
+            if (roleFilter) {
+              Array.from(roleFilter.options).forEach((opt) => {
+                if (!opt.value) return
+                if (opt.value !== '2' && opt.value !== '3') opt.hidden = true
+              })
+              // Si estaba seleccionado un rol no permitido, resetear a Todos
+              if (roleFilter.value && roleFilter.value !== '2' && roleFilter.value !== '3') {
+                roleFilter.value = ''
+              }
+            }
+          }
+          allUsers = list
           filteredUsers = allUsers
           currentPage = 1
           console.log('Usuarios cargados:', allUsers)
           renderUsers(filteredUsers)
         } catch (error) {
-          tbody.innerHTML = `<tr><td colspan="5">${error.message}</td></tr>`
+          tbody.innerHTML = `<tr><td colspan="6">${error.message}</td></tr>`
           console.error('Error cargando usuarios:', error)
         } finally {
           if (loadingRow) loadingRow.remove()
@@ -371,10 +446,16 @@
       console.log(allUsers)
 
       function openModal(user, mode = 'view') {
+        const loggedRoleId = getLoggedRoleId()
+        const userRoleId = Number(user.role_id)
+        // Control de Estudios no puede editar profesores; forzar solo vista
+        if (loggedRoleId === 4 && userRoleId === 2 && mode === 'edit') {
+          mode = 'view'
+        }
         const modal = document.getElementById('user-modal')
         const overlay = document.getElementById('user-modal-overlay')
         const title = document.getElementById('user-modal-title')
-        const fields = ['first_name', 'last_name', 'email', 'phone', 'role_id', 'is_active']
+        const fields = ['first_name', 'last_name', 'national_id', 'email', 'phone', 'role_id', 'is_active']
 
         currentUser = user
 
@@ -431,6 +512,7 @@
         const payload = {
           first_name: document.getElementById('modal-first_name').value.trim(),
           last_name: document.getElementById('modal-last_name').value.trim(),
+          national_id: document.getElementById('modal-national_id').value.trim(),
           email: document.getElementById('modal-email').value.trim(),
           phone: document.getElementById('modal-phone').value.trim(),
           role_id: Number(document.getElementById('modal-role_id').value) || currentUser.role_id,
@@ -457,8 +539,47 @@
           payload.password_hash = newPassword
         }
 
-        const nombre = getDisplayName(currentUser)
-        const ok = window.confirm(`¿Estás seguro que quieres editar a "${nombre}"?`)
+        const newPassword = document.getElementById('modal-password')?.value || ''
+        const confirmPassword = document.getElementById('modal-password-confirm')?.value || ''
+
+        if (newPassword || confirmPassword) {
+          if (newPassword !== confirmPassword) {
+            alert('Las contraseñas no coinciden.')
+            return
+          }
+          if (newPassword.length < 8 || newPassword.length > 20) {
+            alert('La contraseña debe tener entre 8 y 20 caracteres.')
+            return
+          }
+          const pwdRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-_+\*\/\?]).+$/
+          if (!pwdRegex.test(newPassword)) {
+            alert('La contraseña debe contener al menos: una letra mayúscula, una letra minúscula, un número y uno de los caracteres permitidos: - _ + * / ?')
+            return
+          }
+          payload.password_hash = newPassword
+        }
+
+        const newPassword = (document.getElementById('modal-password')?.value || '').trim()
+        if (newPassword) payload.password = newPassword
+
+        // Detectar cambios respecto al usuario actual
+        const changed = (
+          payload.first_name !== (currentUser.first_name || '') ||
+          payload.last_name !== (currentUser.last_name || '') ||
+          payload.national_id !== (currentUser.national_id || '') ||
+          payload.email !== (currentUser.email || '') ||
+          payload.phone !== (currentUser.phone || '') ||
+          Number(payload.role_id) !== Number(currentUser.role_id) ||
+          Boolean(payload.is_active) !== Boolean(currentUser.is_active) ||
+          Boolean(newPassword)
+        )
+
+        if (!changed) {
+          alert('No hay cambios para guardar.')
+          return
+        }
+
+        const ok = window.confirm('¿Estas seguro que quieres modificar este usuario?')
         if (!ok) return
 
         try {
@@ -486,11 +607,20 @@
 
       // Filtra la tabla en vivo al escribir en el buscador.
       document.getElementById('user-filter').addEventListener('input', applyFilter)
+      if (roleFilter) {
+        roleFilter.addEventListener('change', applyFilter)
+      }
       document.getElementById('modal-close').addEventListener('click', closeModal)
       document.getElementById('user-modal-overlay').addEventListener('click', closeModal)
       document.getElementById('modal-save').addEventListener('click', saveUser)
 
       const addUserBtn = document.getElementById('add-user-btn')
+      const profileCreateItem = document.querySelector('[data-profile-action="create"]')
+      const loggedRoleIdInit = getLoggedRoleId()
+      if (loggedRoleIdInit === 4) {
+        if (addUserBtn) addUserBtn.style.display = 'none'
+        if (profileCreateItem) profileCreateItem.style.display = 'none'
+      }
       if (addUserBtn) {
         addUserBtn.addEventListener('click', () => {
           window.location.href = './registro.html'
@@ -511,6 +641,7 @@
         }
 
         if (action === 'create') {
+          if (getLoggedRoleId() === 4) return
           window.location.href = './registro.html'
           return
         }
@@ -578,8 +709,16 @@
         <input id="modal-last_name" type="text" />
       </label>
       <label>
+        Cédula
+        <input id="modal-national_id" type="text" inputmode="numeric" />
+      </label>
+      <label>
         Correo
         <input id="modal-email" type="email" />
+      </label>
+      <label>
+        Contraseña (opcional)
+        <input id="modal-password" type="password" placeholder="Dejar en blanco para no cambiar" autocomplete="new-password" />
       </label>
       <label>
         Teléfono
@@ -598,6 +737,7 @@
         <select id="modal-role_id">
           <option value="2">Profesor</option>
           <option value="3">Estudiante</option>
+          <option value="4">Control de Estudios</option>
           <option value="1" disabled>Administrador (solo lectura)</option>
         </select>
       </label>

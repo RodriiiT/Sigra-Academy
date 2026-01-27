@@ -28,7 +28,7 @@ export class AssistanceModel {
         // Se verifica que el estudiante exista y la asignación exista
         const [existingUser] = await db.query(
             `SELECT u.* FROM users u JOIN roles r ON u.role_id = r.role_id
-            WHERE u.user_id = ? AND r.role_name = 'Estudiante'`,
+            WHERE u.user_id = ? AND r.role_name = 'student'`,
             [student_user_id]
         );
         const [existingAssignment] = await db.query(
