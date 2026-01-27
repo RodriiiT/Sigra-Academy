@@ -10,6 +10,10 @@ const controller = new ControlController({ ModelControl: UserModel });
 router.get('/users', controller.getAllUsers);
 // Ruta para obtener un usuario por su ID
 router.get('/user/:userId', controller.getUserById);
+// Ruta para obtener todos los representantes
+router.get('/representatives', controller.getAllRepresentatives);
+// Ruta para obtener un representante por su ID
+router.get('/representative/:representativeId', controller.getRepresentativeById);
 // Ruta para obtener un usuario por su email
 router.get('/email/:email', controller.getUserByEmail);
 // Ruta para crear un nuevo usuario
@@ -26,4 +30,3 @@ router.delete('/delete/:userId', controller.deleteUser);
 router.get('/verify-auth', authMiddleware, controller.verifyAuth);
 
 export const controlRoute = router;
-

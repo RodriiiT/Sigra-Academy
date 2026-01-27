@@ -8,7 +8,7 @@ import { activityNotifierMiddleware } from "./src/api/middlewares/email.middlewa
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 console.log(`Starting app.mjs — module dir: ${__dirname} ; process.cwd(): ${process.cwd()}`);
-if(process.cwd().endsWith(path.join('backend','backend'))){
+if (process.cwd().endsWith(path.join('backend', 'backend'))) {
     console.warn('Warning: current working directory appears to be nested (backend/backend).\nConsider running `node app.mjs` from the backend root (../backend) or run `node scripts/rename_legacy_export_dir.mjs` to move the legacy folder.');
 }
 
@@ -51,7 +51,7 @@ app.use('/Public', express.static(path.resolve('../Public')));
 
 // Rutas básicas
 app.get("/", (req, res) => {
-	res.send("Servidor funcionando correctamente");
+    res.send("Servidor funcionando correctamente");
 });
 // Servidor escuchando en el puerto configurado
 app.listen(SETTINGS.PORT, () => {
@@ -64,50 +64,50 @@ app.get('/profesor', (req, res) => res.sendFile(path.resolve('../frontend/Module
 
 // Diagnostic endpoint: returns process and DB status to help debugging local setups
 app.get('/_status', async (req, res) => {
-    try{
+    try {
         const { db, verifyDBConnection } = await import('./database/db.database.mjs');
-        try{
+        try {
             const info = await verifyDBConnection();
             return res.json({ pid: process.pid, port: SETTINGS.PORT, db: info.connected ? 'ok' : 'error', dbError: info.lastError });
-        }catch(e){
+        } catch (e) {
             return res.status(500).json({ pid: process.pid, port: SETTINGS.PORT, db: 'error', error: String(e.message) });
         }
-    }catch(e){
+    } catch (e) {
         return res.status(500).json({ pid: process.pid, port: SETTINGS.PORT, error: String(e.message) });
     }
 });
 
 // Iniciar servidor y registrar rutas de forma resiliente (no bloquear si DB no está lista)
-async function startServer(){
+async function startServer() {
     // Start listening first so /_health responds even if route registration or DB has issues
-    async function listenOnAvailablePort(startPort, maxAttempts = 10){
+    async function listenOnAvailablePort(startPort, maxAttempts = 10) {
         let port = Number(startPort) || 3000;
-        for(let i=0;i<maxAttempts;i++){
-            try{
+        for (let i = 0; i < maxAttempts; i++) {
+            try {
                 const server = await new Promise((resolve, reject) => {
                     const s = app.listen(port, '0.0.0.0', () => resolve(s));
                     s.on('error', (err) => reject(err));
                 });
                 return { server, port };
-            }catch(err){
-                if(err && err.code === 'EADDRINUSE'){
-                    console.warn(`Puerto ${port} en uso, intentando puerto ${port+1}...`);
+            } catch (err) {
+                if (err && err.code === 'EADDRINUSE') {
+                    console.warn(`Puerto ${port} en uso, intentando puerto ${port + 1}...`);
                     port = port + 1;
                     continue;
                 }
                 throw err;
             }
         }
-        throw new Error(`No fue posible enlazar a ningún puerto en el rango ${startPort}-${startPort+maxAttempts-1}`);
+        throw new Error(`No fue posible enlazar a ningún puerto en el rango ${startPort}-${startPort + maxAttempts - 1}`);
     }
 
     let server, boundPort;
-    try{
+    try {
         const res = await listenOnAvailablePort(SETTINGS.PORT, 20);
         server = res.server; boundPort = res.port;
         SETTINGS.PORT = boundPort; // update setting to actual bound port
         console.log(`Servidor escuchando en el puerto http://0.0.0.0:${SETTINGS.PORT}`);
-    }catch(err){
+    } catch (err) {
         console.error('Error en el servidor HTTP (no fue posible enlazar puertos):', err && err.stack ? err.stack : err);
         process.exit(1);
     }
@@ -117,13 +117,13 @@ async function startServer(){
     });
 
     // Attempt to register routes; if it fails, log but keep server running
-    try{
+    try {
         const { registerRoutes } = await import('./src/core/utils/function.util.mjs');
         const { ListRoutes } = await import('./src/api/routes/api.routes.mjs');
         registerRoutes(app, ListRoutes);
         console.log('Rutas registradas correctamente.');
         // Montajes explícitos para garantizar disponibilidad de rutas críticas
-        try{
+        try {
             const { AsignacionesRoutes } = await import('./src/modules/teaching-manager-IV/asignaciones/asignaciones.route.mjs');
             const { AsistenciaRoutes } = await import('./src/modules/teaching-manager-IV/asistencia/asistencia.route.mjs');
             const { AlumnosRoutes } = await import('./src/modules/teaching-manager-IV/alumnos/alumnos.route.mjs');
@@ -131,22 +131,22 @@ async function startServer(){
             app.use(`${SETTINGS.BASE_PATH}/attendance`, AsistenciaRoutes);
             app.use(`${SETTINGS.BASE_PATH}/alumnos`, AlumnosRoutes);
             console.log('Montajes explícitos de teaching-manager-IV realizados.');
-        }catch(e){
+        } catch (e) {
             console.warn('No se pudieron montar rutas explícitas de teaching-manager-IV:', e && e.message ? e.message : e);
         }
-    }catch(err){
+    } catch (err) {
         console.error('Advertencia: fallo al registrar rutas (el servidor seguirá corriendo, pero algunas APIs pueden estar indisponibles):', err && err.stack ? err.stack : err);
     }
 
     // Check DB connection once at startup and provide actionable hint if not connected
-    try{
+    try {
         const { verifyDBConnection } = await import('./database/db.database.mjs');
         const info = await verifyDBConnection();
-        if(!info.connected){
+        if (!info.connected) {
             console.warn('Advertencia: No se pudo conectar a la base de datos al iniciar. Consulte /_status para más detalles. Si trabaja en local, asegúrese de que MySQL esté corriendo y que las credenciales en .env sean correctas.');
-            if(info.lastError) console.warn('Último error de DB:', info.lastError);
+            if (info.lastError) console.warn('Último error de DB:', info.lastError);
         }
-    }catch(e){
+    } catch (e) {
         console.warn('Advertencia: fallo al comprobar estado de DB en inicio:', e && e.message ? e.message : e);
     }
 }
