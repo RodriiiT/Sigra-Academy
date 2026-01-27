@@ -30,6 +30,18 @@ CREATE TABLE users (
     FOREIGN KEY (role_id) REFERENCES roles(role_id) ON DELETE CASCADE
 );
 
+-- Tabla de Representantes / Representatives (Información de representantes legales de estudiantes)
+CREATE TABLE representatives (
+    representative_id INT AUTO_INCREMENT PRIMARY KEY,
+    national_id VARCHAR(20) NOT NULL,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    address VARCHAR(255),
+    phone VARCHAR(20),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
 -- Tabla para Recuperación de Contraseñas
 CREATE TABLE login_session (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -79,7 +91,7 @@ CREATE TABLE subjects (
     grade_id INT NOT NULL, -- Pertenece a la malla de un año específico
     subject_name VARCHAR(100) NOT NULL, -- "Matemáticas", "Historia"
     code_subject VARCHAR(140) NOT NULL,
-    is_active BOOLEAN DEFAULT(TRUE), 
+    is_active BOOLEAN DEFAULT(TRUE),
     description TEXT,
     FOREIGN KEY (grade_id) REFERENCES grades(grade_id) ON DELETE CASCADE
 );
@@ -172,7 +184,7 @@ CREATE TABLE course_resources (
     assignment_id INT NOT NULL,
     title VARCHAR(150) NOT NULL,
     resource_type ENUM('PDF', 'Video') NOT NULL,
-    file_path_or_url VARCHAR(255) NOT NULL, 
+    file_path_or_url VARCHAR(255) NOT NULL,
     uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (assignment_id) REFERENCES teacher_assignments(assignment_id) ON DELETE CASCADE
 );
