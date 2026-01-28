@@ -76,6 +76,51 @@ document.addEventListener('DOMContentLoaded', function() {
         renderExtraFields(e.target.value);
     });
 
+    // Mostrar/Ocultar mensaje de requisitos de contraseña
+    const passwordInput = document.getElementById('password');
+    if (passwordInput) {
+        // Crear el mensaje y agregarlo al DOM
+        const passwordGroup = passwordInput.closest('.input-group');
+        if (passwordGroup) {
+            const requirementsMsg = document.createElement('div');
+            requirementsMsg.id = 'password-requirements-msg';
+            requirementsMsg.style.display = 'none';
+            requirementsMsg.style.background = '#f8d7da'; // color de fondo suave tipo alerta
+            requirementsMsg.style.border = '1px solid #f5c2c7';
+            requirementsMsg.style.borderRadius = '6px';
+            requirementsMsg.style.padding = '10px 16px 10px 32px';
+            requirementsMsg.style.marginBottom = '8px';
+            requirementsMsg.style.color = '#842029';
+            requirementsMsg.style.fontSize = '0.97em';
+            requirementsMsg.style.boxShadow = '0 1px 4px rgba(0,0,0,0.04)';
+            requirementsMsg.innerHTML = `
+                <strong>La contraseña debe cumplir con:</strong>
+                <ul style="margin: 6px 0 0 18px; padding: 0; list-style: disc; color: #842029;">
+                  <li>Entre 8 y 20 caracteres</li>
+                  <li>Al menos una letra mayúscula</li>
+                  <li>Al menos una letra minúscula</li>
+                  <li>Al menos un número</li>
+                  <li>Al menos uno de estos caracteres: <b>- _ + * / ?</b></li>
+                </ul>
+            `;
+            passwordGroup.insertBefore(requirementsMsg, passwordGroup.firstChild);
+
+            passwordInput.addEventListener('focus', function() {
+                requirementsMsg.style.display = 'block';
+            });
+            passwordInput.addEventListener('input', function() {
+                if (passwordInput.value.length > 0) {
+                    requirementsMsg.style.display = 'none';
+                }
+            });
+            passwordInput.addEventListener('blur', function() {
+                if (passwordInput.value.length === 0) {
+                    requirementsMsg.style.display = 'none';
+                }
+            });
+        }
+    }
+
     // Handler para crear usuario al presionar "Aceptar"
     const btnAceptar = document.getElementById('btnAceptar');
     if (btnAceptar) {
@@ -84,24 +129,37 @@ document.addEventListener('DOMContentLoaded', function() {
             const lastName = document.getElementById('lastnames')?.value?.trim();
             const email = document.getElementById('email')?.value?.trim();
             const phone = document.getElementById('phone')?.value?.trim();
+            const nationalId = document.getElementById('national_id')?.value?.trim();
             const password = document.getElementById('password')?.value || '';
             const confirmPassword = document.getElementById('confirm-password')?.value || '';
             const rol = document.getElementById('rolSelect')?.value || '';
 
             const repFirstName = document.getElementById('rep-names')?.value?.trim();
             const repLastName = document.getElementById('rep-lastnames')?.value?.trim();
-            const repId = document.getElementById('rep-id')?.value?.trim();
+            const repNationalId = document.getElementById('rep-id')?.value?.trim();
 
-            // Validaciones mínimas
-            if (!firstName || !lastName || !email || !phone || !password || !rol) {
+
+
+            // Limpiar el teléfono y cédulas para dejar solo dígitos
+            const digitsOnlyPhone = (phone || '').replace(/\D/g, '');
+            const digitsOnlyNationalId = (nationalId || '').replace(/\D/g, '');
+            const digitsOnlyRepNationalId = (repNationalId || '').replace(/\D/g, '');
+
+            // Validación: todos los campos obligatorios (excepto los de representante si no es estudiante)
+            if (!firstName || !lastName || !email || !phone || !nationalId || !password || !rol) {
                 alert('Por favor completa todos los campos requeridos.');
                 return;
             }
 
-            // Validar teléfono: exactamente 12 dígitos
-            const digitsOnlyPhone = (phone || '').replace(/\D/g, '');
-            if (digitsOnlyPhone.length !== 12) {
-                alert('El número de teléfono debe contener exactamente 12 dígitos.');
+            // Validación: cédula del usuario (exactamente 8 dígitos)
+            if (!/^[0-9]{8}$/.test(digitsOnlyNationalId)) {
+                alert('La cédula del usuario debe tener exactamente 8 dígitos.');
+                return;
+            }
+
+            // Validación: teléfono (exactamente 11 dígitos)
+            if (!/^[0-9]{11}$/.test(digitsOnlyPhone)) {
+                alert('El número de teléfono debe tener exactamente 11 dígitos.');
                 return;
             }
 
@@ -124,10 +182,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            // Campos obligatorios si es estudiante
+
+            // Validaciones de representante solo si es estudiante
             if (rol === 'estudiante') {
-                if (!repFirstName || !repLastName || !repId) {
+                if (!repFirstName || !repLastName || !repNationalId) {
                     alert('Completa todos los datos del representante.');
+                    return;
+                }
+                // Validación: cédula del representante (exactamente 8 dígitos)
+                if (!/^[0-9]{8}$/.test(digitsOnlyRepNationalId)) {
+                    alert('La cédula del representante debe tener exactamente 8 dígitos.');
                     return;
                 }
             }
@@ -146,14 +210,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 last_name: lastName,
                 email,
                 phone: digitsOnlyPhone,
-                password_hash: password
-            };
+                national_id: digitsOnlyNationalId,
+                password_hash: password,
+                parents_national_id: rol === 'estudiante' ? String(Number(digitsOnlyRepNationalId)) : "",
+                parents_first_name: rol === 'estudiante' ? repFirstName : "",
+                parents_last_name: rol === 'estudiante' ? repLastName : ""
 
-            if (rol === 'estudiante') {
-                payload.parents_id = repId?.replace(/\D/g, '') || repId;
-                payload.parents_first_name = repFirstName;
-                payload.parents_last_name = repLastName;
-            }
+            };
 
             const API_BASE = 'http://localhost:5200/api';
             try {
@@ -177,10 +240,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
 
                 alert('Usuario creado correctamente');
+                console.log('Usuario creado:', data);
                 // Redirigir a la tabla de usuarios
                 window.location.href = 'user-table.html';
             } catch (err) {
                 alert('Error de red: ' + (err?.message || 'intenta nuevamente'));
+                console.log(payload);
             }
         });
     }
